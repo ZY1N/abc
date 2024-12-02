@@ -1,0 +1,873 @@
+import React from "react";
+
+export function SortableItem({
+  id,
+  asset,
+  imageBehaviors,
+  handleBehaviorChange,
+  getImageStyle,
+  handleDeleteItem,
+  onDragStart,
+  onDragOver,
+  onDrop,
+}) {
+  const style = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10px",
+    padding: "10px",
+    border: "1px solid #e0e0e0",
+    backgroundColor: "#fafafa",
+    position: "relative",
+  };
+
+  return (
+    <div
+      draggable="true"
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      style={style}
+    >
+      {/* Delete Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent triggering drag
+          handleDeleteItem(asset.id);
+        }}
+        style={{
+          position: "absolute",
+          top: "5px",
+          right: "5px",
+          backgroundColor: "transparent",
+          border: "none",
+          fontSize: "16px",
+          cursor: "pointer",
+          color: "#ff0000",
+        }}
+        title="Delete Asset"
+      >
+        &times;
+      </button>
+
+      {/* Draggable Area */}
+      <div style={{ cursor: "grab", width: "100%" }}>
+        {/* Image with Background */}
+        <div
+          style={{
+            backgroundColor: asset.backgroundColor,
+            borderRadius: "50%",
+            overflow:
+              imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "75px",
+            height: "75px",
+            margin: "0 auto",
+          }}
+        >
+          <img
+            src={asset.image}
+            alt={asset.label}
+            style={getImageStyle(imageBehaviors[asset.id], 75)}
+          />
+        </div>
+
+        {/* Asset Label */}
+        <div style={{ fontWeight: "bold", textAlign: "center" }}>
+          {asset.label}
+        </div>
+      </div>
+
+      {/* Dropdown Selection */}
+      <select
+        value={imageBehaviors[asset.id]}
+        onChange={(e) => handleBehaviorChange(asset.id, e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          width: "100%",
+        }}
+      >
+        {asset.options.map((option) => (
+          <option key={option} value={option}>
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+
+
+
+
+
+import React, { useState } from "react";
+import { SortableItem } from "./SortableItem"; // Ensure you have this component
+
+const initialAssets = [
+  ...Array(10)
+    .fill()
+    .map((_, idx) => ({
+      id: idx + 1,
+      label: `Asset ${idx + 1}`,
+      image: "https://img.icons8.com/color/200/000000/trousers.png",
+      groupName: "Group A",
+      backgroundColor: "#C1FFC1",
+      mockup: {
+        desktop: "https://img.icons8.com/color/200/000000/trousers.png",
+        mobile: "https://img.icons8.com/color/200/000000/trousers.png",
+      },
+      options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
+      defaultOption: "tight",
+    })),
+];
+
+const metadata = {
+  pageName: "Spring Collection",
+  creator: "John Doe",
+  creationDate: "2024-11-26",
+  status: "Pending",
+  deviceType: "Desktop",
+  bannerColor: "#f5f5f5", // Unified banner background color
+};
+
+const xLabels = [1660, 1440, 1280, 1200, 1024, 900];
+const desktopYLabels = ["4-row Assembly", "6-row Assembly"];
+const mobileYLabels = ["2-row Assembly", "3-row Assembly"];
+
+const ResponsiveAssetManager = () => {
+  const [activeTab, setActiveTab] = useState("desktop");
+  const [assetsState, setAssetsState] = useState([...initialAssets]);
+  const [imageBehaviors, setImageBehaviors] = useState(
+    initialAssets.reduce((acc, asset) => {
+      acc[asset.id] = asset.defaultOption;
+      return acc;
+    }, {})
+  );
+  const [newItemId, setNewItemId] = useState("");
+  const [assemblyStatus, setAssemblyStatus] = useState({});
+  const [checkedAssemblies, setCheckedAssemblies] = useState({});
+  const [modalInput, setModalInput] = useState({
+    reason: "",
+    details: "",
+    recommendations: "",
+  });
+  const [showModal, setShowModal] = useState({
+    type: "", // 'approve', 'reject', 'delete'
+    assembly: "",
+  });
+  const [warningMessage, setWarningMessage] = useState("");
+
+  const [draggedItemId, setDraggedItemId] = useState(null);
+
+  const handleBehaviorChange = (id, behavior) => {
+    setImageBehaviors((prev) => ({
+      ...prev,
+      [id]: behavior,
+    }));
+  };
+
+  const getImageStyle = (behavior, size) => {
+    switch (behavior) {
+      case "tight":
+        return {
+          width: `${size}px`,
+          height: `${size}px`,
+          objectFit: "contain",
+        };
+      case "tight(crop)":
+        return { width: `${size}px`, height: `${size}px`, objectFit: "cover" };
+      case "overflow":
+        return {
+          width: `${size * 1.3}px`,
+          height: `${size * 1.3}px`,
+          objectFit: "contain",
+        };
+      case "overflow(crop)":
+        return {
+          width: `${size * 1.3}px`,
+          height: `${size * 1.3}px`,
+          objectFit: "cover",
+        };
+      case "inside":
+        return { width: `${size}px`, height: `${size}px`, objectFit: "cover" };
+      default:
+        return {
+          width: `${size}px`,
+          height: `${size}px`,
+          objectFit: "contain",
+        };
+    }
+  };
+
+  const getImageSizeForScreenSize = (screenSize) => {
+    const maxSize = 150;
+    const minSize = 50;
+    const maxScreenSize = Math.max(...xLabels);
+    const minScreenSize = Math.min(...xLabels);
+    const scale = (maxSize - minSize) / (maxScreenSize - minScreenSize);
+    return maxSize - scale * (maxScreenSize - screenSize);
+  };
+
+  const chunkArray = (array, size) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  };
+
+  const handleAddNewItem = () => {
+    if (
+      !newItemId ||
+      assetsState.some((asset) => asset.id === parseInt(newItemId))
+    ) {
+      alert("Invalid or duplicate ID. Please enter a unique ID.");
+      return;
+    }
+
+    const newAsset = {
+      id: parseInt(newItemId),
+      label: `Asset ${newItemId}`,
+      image: "https://img.icons8.com/color/200/000000/trousers.png",
+      groupName: "Group A",
+      backgroundColor: "#C1FFC1",
+      mockup: {
+        desktop: "https://img.icons8.com/color/200/000000/trousers.png",
+        mobile: "https://img.icons8.com/color/200/000000/trousers.png",
+      },
+      options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
+      defaultOption: "tight",
+    };
+
+    setAssetsState((prev) => [...prev, newAsset]);
+    setImageBehaviors((prev) => ({
+      ...prev,
+      [newAsset.id]: newAsset.defaultOption,
+    }));
+    setNewItemId("");
+  };
+
+  const handleDeleteItem = (id) => {
+    setAssetsState((prevAssets) =>
+      prevAssets.filter((asset) => asset.id !== id)
+    );
+    setImageBehaviors((prev) => {
+      const updated = { ...prev };
+      delete updated[id];
+      return updated;
+    });
+  };
+
+  const handleDragStart = (e, id) => {
+    setDraggedItemId(id);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e, id) => {
+    e.preventDefault(); // Necessary to allow drop
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e, id) => {
+    e.preventDefault();
+
+    const draggedIndex = assetsState.findIndex(
+      (item) => item.id === draggedItemId
+    );
+    const dropIndex = assetsState.findIndex((item) => item.id === id);
+
+    if (draggedIndex !== dropIndex) {
+      const updatedAssets = [...assetsState];
+      const [draggedItem] = updatedAssets.splice(draggedIndex, 1);
+      updatedAssets.splice(dropIndex, 0, draggedItem);
+      setAssetsState(updatedAssets);
+    }
+
+    setDraggedItemId(null);
+  };
+
+  const handleAction = (actionType) => {
+    const selectedAssemblies = Object.keys(checkedAssemblies).filter(
+      (key) => checkedAssemblies[key]
+    );
+    if (selectedAssemblies.length === 0) {
+      setWarningMessage("Nothing was selected");
+      setTimeout(() => {
+        setWarningMessage("");
+      }, 3000);
+      return;
+    }
+    setShowModal({ type: actionType, assembly: selectedAssemblies[0] }); // Assuming one assembly at a time
+  };
+
+  const handleUndo = (assemblyLabel) => {
+    setAssemblyStatus((prev) => {
+      const updated = { ...prev };
+      delete updated[assemblyLabel];
+      return updated;
+    });
+  };
+
+  const handleModalSubmit = () => {
+    const { type, assembly } = showModal;
+    if (type === "approve" || type === "reject") {
+      setAssemblyStatus((prev) => ({
+        ...prev,
+        [assembly]: {
+          status: type === "approve" ? "Approved" : "Rejected",
+          reason: modalInput.reason,
+        },
+      }));
+    } else if (type === "delete") {
+      setAssemblyStatus((prev) => ({
+        ...prev,
+        [assembly]: {
+          status: "Deleted",
+        },
+      }));
+    }
+    setShowModal({ type: "", assembly: "" });
+    setModalInput({ reason: "", details: "", recommendations: "" });
+    setCheckedAssemblies((prev) => ({
+      ...prev,
+      [assembly]: false,
+    }));
+  };
+
+  const handleModalClose = () => {
+    setShowModal({ type: "", assembly: "" });
+    setModalInput({ reason: "", details: "", recommendations: "" });
+  };
+
+  const renderMockupSections = (assemblies) => (
+    <div>
+      {assemblies.map((assemblyLabel) => {
+        const maxItemsPerRow = parseInt(assemblyLabel);
+        const assemblyState = assemblyStatus[assemblyLabel] || {};
+        return (
+          <div
+            key={assemblyLabel}
+            style={{
+              marginBottom: "40px",
+              padding: "10px",
+              position: "relative",
+            }}
+          >
+            {/* Warning Message */}
+            {warningMessage && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "-30px",
+                  left: "0",
+                  color: "red",
+                  backgroundColor: "pink",
+                  padding: "5px",
+                }}
+              >
+                {warningMessage}
+              </div>
+            )}
+
+            <div style={{ display: "flex" }}>
+              {/* Assembly Label with Checkbox */}
+              <div
+                style={{
+                  writingMode: "vertical-lr",
+                  transform: "rotate(180deg)",
+                  backgroundColor: "#e0e0e0",
+                  padding: "10px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  marginRight: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                  letterSpacing: "2px", // Increased letter spacing
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={checkedAssemblies[assemblyLabel] || false}
+                  onChange={(e) =>
+                    setCheckedAssemblies((prev) => ({
+                      ...prev,
+                      [assemblyLabel]: e.target.checked,
+                    }))
+                  }
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    left: "10px",
+                    transform: "rotate(180deg)",
+                  }}
+                />
+                {assemblyLabel}
+              </div>
+
+              {/* Row of Banners */}
+              <div
+                style={{
+                  flex: 1,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    overflowX: "auto",
+                  }}
+                >
+                  {xLabels.map((screenSize, index) => {
+                    const isDesktop = activeTab === "desktop";
+                    const cellSize = getImageSizeForScreenSize(screenSize);
+                    const assetChunks = chunkArray(assetsState, maxItemsPerRow);
+                    const labelText = `${screenSize} (${
+                      isDesktop ? "D" : "M"
+                    })`;
+
+                    return (
+                      <div key={`${assemblyLabel}-${screenSize}`}>
+                        {/* Label Above the Banner */}
+                        <div
+                          style={{
+                            backgroundColor:
+                              index === 0 ? "#007BFF" : "#e0e0e0",
+                            color: index === 0 ? "#fff" : "#333",
+                            fontWeight: "bold",
+                            padding: "5px 10px",
+                            textAlign: "center",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          {labelText}
+                        </div>
+
+                        {/* Banner Content */}
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
+                            gap: "10px",
+                            justifyItems: "center",
+                            backgroundColor: metadata.bannerColor,
+                            padding: "10px",
+                          }}
+                        >
+                          {assetChunks.map((chunk, chunkIndex) => (
+                            <React.Fragment key={`chunk-${chunkIndex}`}>
+                              {chunk.map((asset) => (
+                                <div
+                                  key={`${assemblyLabel}-${screenSize}-${asset.id}`}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    width: `${cellSize}px`,
+                                  }}
+                                >
+                                  {/* Asset Image */}
+                                  <div
+                                    style={{
+                                      backgroundColor: asset.backgroundColor,
+                                      borderRadius: "50%",
+                                      overflow:
+                                        imageBehaviors[asset.id] === "overflow"
+                                          ? "visible"
+                                          : "hidden",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      width: `${cellSize}px`,
+                                      height: `${cellSize}px`,
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    <img
+                                      src={asset.mockup[activeTab]}
+                                      alt={asset.label}
+                                      style={getImageStyle(
+                                        imageBehaviors[asset.id],
+                                        cellSize
+                                      )}
+                                    />
+                                  </div>
+
+                                  {/* Asset Label */}
+                                  <div
+                                    style={{
+                                      fontSize: "12px",
+                                      textAlign: "center",
+                                      whiteSpace: "normal",
+                                    }}
+                                  >
+                                    {asset.label}
+                                  </div>
+                                </div>
+                              ))}
+                            </React.Fragment>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Buttons */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "10px",
+                  }}
+                >
+                  <button
+                    onClick={() => handleAction("approve")}
+                    style={{
+                      padding: "5px 10px",
+                      backgroundColor: "#89CFF0",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleAction("reject")}
+                    style={{
+                      padding: "5px 10px",
+                      backgroundColor: "#dc3545",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Reject
+                  </button>
+                  {assemblyStatus[assemblyLabel]?.status ? (
+                    <button
+                      onClick={() => handleUndo(assemblyLabel)}
+                      style={{
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "black",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        marginRight: "10px",
+                      }}
+                    >
+                      Undo
+                    </button>
+                  ) : null}
+                  <button
+                    onClick={() => handleAction("delete")}
+                    style={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "black",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Delete
+                  </button>
+                  {/* Display Status */}
+                  {assemblyStatus[assemblyLabel]?.status && (
+                    <div style={{ marginLeft: "20px", fontWeight: "bold" }}>
+                      Status: {assemblyStatus[assemblyLabel].status}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      {/* Control Buttons */}
+      <div style={{ display: "flex", width: "100%", marginBottom: "20px" }}>
+        <button
+          onClick={() => {
+            setActiveTab("desktop");
+            metadata.deviceType = "Desktop";
+          }}
+          style={{
+            flex: 1,
+            padding: "20px",
+            fontSize: "18px",
+            backgroundColor: "#d3d3d3",
+            border: "none",
+            borderBottom:
+              activeTab === "desktop" ? "2px solid darkblue" : "none",
+            borderRight:
+              activeTab === "desktop" ? "2px solid darkblue" : "none",
+            color: activeTab === "desktop" ? "darkblue" : "black",
+            cursor: "pointer",
+            outline: "none",
+            textTransform: "uppercase",
+          }}
+          aria-label="Switch to Desktop Tab"
+        >
+          Desktop
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("mobile");
+            metadata.deviceType = "Mobile";
+          }}
+          style={{
+            flex: 1,
+            padding: "20px",
+            fontSize: "18px",
+            backgroundColor: "#d3d3d3",
+            border: "none",
+            borderBottom:
+              activeTab === "mobile" ? "2px solid darkblue" : "none",
+            borderLeft: activeTab === "mobile" ? "2px solid darkblue" : "none",
+            color: activeTab === "mobile" ? "darkblue" : "black",
+            cursor: "pointer",
+            outline: "none",
+            textTransform: "uppercase",
+          }}
+          aria-label="Switch to Mobile Tab"
+        >
+          Mobile
+        </button>
+      </div>
+
+      {/* Control Panel */}
+      <div
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+        }}
+      >
+        {/* Meta Details and Add New Item */}
+        <div
+          style={{
+            width: "25%",
+            paddingRight: "15px",
+            display: "flex",
+            flexDirection: "column",
+            borderRight: "1px solid black",
+          }}
+        >
+          <div
+            style={{
+              marginBottom: "20px",
+              padding: "15px",
+              width: "100%",
+            }}
+          >
+            <h3 style={{ marginBottom: "10px" }}>Meta Details</h3>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Page Name:</strong> {metadata.pageName}
+            </p>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Creator:</strong> {metadata.creator}
+            </p>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Creation Date:</strong> {metadata.creationDate}
+            </p>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Status:</strong> {metadata.status}
+            </p>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Device Type:</strong> {metadata.deviceType}
+            </p>
+          </div>
+
+          {/* Add New Item */}
+          <div
+            style={{
+              marginBottom: "20px",
+              width: "100%",
+            }}
+          >
+            <h4>Add New Item by ID</h4>
+            <input
+              type="text"
+              placeholder="Enter new asset ID"
+              value={newItemId}
+              onChange={(e) => setNewItemId(e.target.value)}
+              style={{
+                padding: "5px",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                width: "100%",
+                marginBottom: "10px",
+              }}
+            />
+            <button
+              onClick={handleAddNewItem}
+              style={{
+                padding: "5px 10px",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                cursor: "pointer",
+              }}
+            >
+              Add Item
+            </button>
+          </div>
+        </div>
+
+        {/* Assets List */}
+        <div style={{ width: "80%", paddingLeft: "15px" }}>
+          <h2 style={{ marginBottom: "20px" }}>Assets</h2>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+              gap: "20px",
+              overflowY: "auto",
+              maxHeight: "400px",
+            }}
+          >
+            {assetsState.map((asset) => (
+              <SortableItem
+                key={asset.id}
+                id={asset.id}
+                asset={asset}
+                imageBehaviors={imageBehaviors}
+                handleBehaviorChange={handleBehaviorChange}
+                getImageStyle={getImageStyle}
+                handleDeleteItem={handleDeleteItem}
+                onDragStart={(e) => handleDragStart(e, asset.id)}
+                onDragOver={(e) => handleDragOver(e, asset.id)}
+                onDrop={(e) => handleDrop(e, asset.id)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Render Mockup Sections */}
+      <div>
+        {renderMockupSections(
+          activeTab === "desktop" ? desktopYLabels : mobileYLabels
+        )}
+      </div>
+
+      {/* Modals */}
+      {showModal.type && (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h3>
+              {showModal.type === "approve"
+                ? `Approve ${showModal.assembly}`
+                : showModal.type === "reject"
+                ? `Reject ${showModal.assembly}`
+                : `Delete ${showModal.assembly}`}
+            </h3>
+            {(showModal.type === "approve" || showModal.type === "reject") && (
+              <textarea
+                placeholder="Reason"
+                value={modalInput.reason}
+                onChange={(e) =>
+                  setModalInput({ ...modalInput, reason: e.target.value })
+                }
+                style={textareaStyle}
+              />
+            )}
+            {showModal.type === "reject" && (
+              <>
+                <textarea
+                  placeholder="Details"
+                  value={modalInput.details}
+                  onChange={(e) =>
+                    setModalInput({ ...modalInput, details: e.target.value })
+                  }
+                  style={textareaStyle}
+                />
+                <textarea
+                  placeholder="Recommendations"
+                  value={modalInput.recommendations}
+                  onChange={(e) =>
+                    setModalInput({
+                      ...modalInput,
+                      recommendations: e.target.value,
+                    })
+                  }
+                  style={textareaStyle}
+                />
+              </>
+            )}
+            <div style={{ marginTop: "20px" }}>
+              <button onClick={handleModalSubmit} style={modalButtonStyle}>
+                {showModal.type.charAt(0).toUpperCase() +
+                  showModal.type.slice(1)}
+              </button>
+              <button onClick={handleModalClose} style={modalButtonStyle}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Modal Styles
+const modalStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyle = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "5px",
+  width: "400px",
+  maxWidth: "90%",
+};
+
+const modalButtonStyle = {
+  padding: "10px 20px",
+  marginRight: "10px",
+  backgroundColor: "#007BFF",
+  color: "#fff",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer",
+};
+
+const textareaStyle = {
+  width: "100%",
+  height: "60px",
+  marginBottom: "10px",
+};
+
+export default ResponsiveAssetManager;

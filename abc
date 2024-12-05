@@ -1,117 +1,10 @@
-import React from "react";
+ //new
 
-export function SortableItem({
-  id,
-  asset,
-  imageBehaviors,
-  handleBehaviorChange,
-  getImageStyle,
-  handleDeleteItem,
-  onDragStart,
-  onDragOver,
-  onDrop,
-}) {
-  const style = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "10px",
-    padding: "10px",
-    border: "1px solid #e0e0e0",
-    backgroundColor: "#fafafa",
-    position: "relative",
-  };
-
-  return (
-    <div
-      draggable="true"
-      onDragStart={onDragStart}
-      onDragOver={onDragOver}
-      onDrop={onDrop}
-      style={style}
-    >
-      {/* Delete Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering drag
-          handleDeleteItem(asset.id);
-        }}
-        style={{
-          position: "absolute",
-          top: "5px",
-          right: "5px",
-          backgroundColor: "transparent",
-          border: "none",
-          fontSize: "16px",
-          cursor: "pointer",
-          color: "#ff0000",
-        }}
-        title="Delete Asset"
-      >
-        &times;
-      </button>
-
-      {/* Draggable Area */}
-      <div style={{ cursor: "grab", width: "100%" }}>
-        {/* Image with Background */}
-        <div
-          style={{
-            backgroundColor: asset.backgroundColor,
-            borderRadius: "50%",
-            overflow:
-              imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "75px",
-            height: "75px",
-            margin: "0 auto",
-          }}
-        >
-          <img
-            src={asset.image}
-            alt={asset.label}
-            style={getImageStyle(imageBehaviors[asset.id], 75)}
-          />
-        </div>
-
-        {/* Asset Label */}
-        <div style={{ fontWeight: "bold", textAlign: "center" }}>
-          {asset.label}
-        </div>
-      </div>
-
-      {/* Dropdown Selection */}
-      <select
-        value={imageBehaviors[asset.id]}
-        onChange={(e) => handleBehaviorChange(asset.id, e.target.value)}
-        style={{
-          padding: "5px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          width: "100%",
-        }}
-      >
-        {asset.options.map((option) => (
-          <option key={option} value={option}>
-            {option.charAt(0).toUpperCase() + option.slice(1)}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
-
-
-
-
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SortableItem } from "./SortableItem"; // Ensure you have this component
 
 const initialAssets = [
-  ...Array(10)
+  ...Array(4) // Adjusted to 4 items for demonstration
     .fill()
     .map((_, idx) => ({
       id: idx + 1,
@@ -137,9 +30,8 @@ const metadata = {
   bannerColor: "#f5f5f5", // Unified banner background color
 };
 
-const xLabels = [1660, 1440, 1280, 1200, 1024, 900];
-const desktopYLabels = ["4-row Assembly", "6-row Assembly"];
-const mobileYLabels = ["2-row Assembly", "3-row Assembly"];
+const desktopYLabels = ["4", "6"];
+const mobileYLabels = ["2", "3"];
 
 const ResponsiveAssetManager = () => {
   const [activeTab, setActiveTab] = useState("desktop");
@@ -165,6 +57,46 @@ const ResponsiveAssetManager = () => {
   const [warningMessage, setWarningMessage] = useState("");
 
   const [draggedItemId, setDraggedItemId] = useState(null);
+  const [collapsedAssemblies, setCollapsedAssemblies] = useState({});
+
+  // Define xLabels based on the active tab
+  const xLabels = activeTab === "desktop" ? ["1280", "lnh"] : ["375"];
+
+  useEffect(() => {
+    const initialCollapsedState = {};
+    const assemblies = activeTab === "desktop" ? desktopYLabels : mobileYLabels;
+    assemblies.forEach((assemblyLabel) => {
+      const maxItemsPerRow = parseInt(assemblyLabel);
+
+      if (activeTab === "desktop") {
+        if (assetsState.length > 4 && maxItemsPerRow === 4) {
+          initialCollapsedState[assemblyLabel] = true; // Collapse 4-row assembly
+        } else if (assetsState.length <= 4 && maxItemsPerRow === 6) {
+          initialCollapsedState[assemblyLabel] = true; // Collapse 6-row assembly
+        } else {
+          initialCollapsedState[assemblyLabel] = false;
+        }
+      } else {
+        // For mobile, adjust default view based on number of assets
+        if (assetsState.length >= 4) {
+          // If 4 or more assets, show 2-row assembly, collapse others
+          if (maxItemsPerRow === 2) {
+            initialCollapsedState[assemblyLabel] = false; // Show 2-row assembly
+          } else {
+            initialCollapsedState[assemblyLabel] = true; // Collapse other assemblies
+          }
+        } else {
+          // If fewer than 4 assets, show 3-row assembly, collapse others
+          if (maxItemsPerRow === 3) {
+            initialCollapsedState[assemblyLabel] = false; // Show 3-row assembly
+          } else {
+            initialCollapsedState[assemblyLabel] = true; // Collapse other assemblies
+          }
+        }
+      }
+    });
+    setCollapsedAssemblies(initialCollapsedState);
+  }, [assetsState, activeTab]);
 
   const handleBehaviorChange = (id, behavior) => {
     setImageBehaviors((prev) => ({
@@ -206,13 +138,37 @@ const ResponsiveAssetManager = () => {
     }
   };
 
-  const getImageSizeForScreenSize = (screenSize) => {
-    const maxSize = 150;
-    const minSize = 50;
-    const maxScreenSize = Math.max(...xLabels);
-    const minScreenSize = Math.min(...xLabels);
-    const scale = (maxSize - minSize) / (maxScreenSize - minScreenSize);
-    return maxSize - scale * (maxScreenSize - screenSize);
+  // Updated function to return specific image sizes
+  const getImageSize = (assemblyLabel, screenSize) => {
+    const maxItemsPerRow = parseInt(assemblyLabel);
+    const isDesktop = activeTab === "desktop";
+
+    if (isDesktop) {
+      if (screenSize === "1280") {
+        if (maxItemsPerRow === 4) {
+          return 290;
+        } else if (maxItemsPerRow === 6) {
+          return 192;
+        }
+      } else if (screenSize === "lnh") {
+        if (maxItemsPerRow === 4) {
+          return 200;
+        } else if (maxItemsPerRow === 6) {
+          return 132;
+        }
+      }
+    } else {
+      if (screenSize === "375") {
+        if (maxItemsPerRow === 2) {
+          return 135;
+        } else if (maxItemsPerRow === 3) {
+          return 104;
+        }
+      }
+    }
+
+    // Default size if no match
+    return 100;
   };
 
   const chunkArray = (array, size) => {
@@ -351,6 +307,13 @@ const ResponsiveAssetManager = () => {
       {assemblies.map((assemblyLabel) => {
         const maxItemsPerRow = parseInt(assemblyLabel);
         const assemblyState = assemblyStatus[assemblyLabel] || {};
+
+        const isCollapsed = collapsedAssemblies[assemblyLabel];
+
+        let assetChunks = chunkArray(assetsState, maxItemsPerRow);
+
+        const shouldHideAssemblyLabel = isCollapsed;
+
         return (
           <div
             key={assemblyLabel}
@@ -378,41 +341,43 @@ const ResponsiveAssetManager = () => {
 
             <div style={{ display: "flex" }}>
               {/* Assembly Label with Checkbox */}
-              <div
-                style={{
-                  writingMode: "vertical-lr",
-                  transform: "rotate(180deg)",
-                  backgroundColor: "#e0e0e0",
-                  padding: "10px",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  marginRight: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
-                  letterSpacing: "2px", // Increased letter spacing
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={checkedAssemblies[assemblyLabel] || false}
-                  onChange={(e) =>
-                    setCheckedAssemblies((prev) => ({
-                      ...prev,
-                      [assemblyLabel]: e.target.checked,
-                    }))
-                  }
+              {!shouldHideAssemblyLabel && (
+                <div
                   style={{
-                    position: "absolute",
-                    top: "10px",
-                    left: "10px",
+                    writingMode: "vertical-lr",
                     transform: "rotate(180deg)",
+                    backgroundColor: "#e0e0e0",
+                    padding: "10px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    marginRight: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                    letterSpacing: "2px",
                   }}
-                />
-                {assemblyLabel}
-              </div>
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkedAssemblies[assemblyLabel] || false}
+                    onChange={(e) =>
+                      setCheckedAssemblies((prev) => ({
+                        ...prev,
+                        [assemblyLabel]: e.target.checked,
+                      }))
+                    }
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      left: "10px",
+                      transform: "rotate(180deg)",
+                    }}
+                  />
+                  {`${assemblyLabel}-row Assembly`}
+                </div>
+              )}
 
               {/* Row of Banners */}
               <div
@@ -420,178 +385,217 @@ const ResponsiveAssetManager = () => {
                   flex: 1,
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    overflowX: "auto",
-                  }}
-                >
-                  {xLabels.map((screenSize, index) => {
-                    const isDesktop = activeTab === "desktop";
-                    const cellSize = getImageSizeForScreenSize(screenSize);
-                    const assetChunks = chunkArray(assetsState, maxItemsPerRow);
-                    const labelText = `${screenSize} (${
-                      isDesktop ? "D" : "M"
-                    })`;
-
-                    return (
-                      <div key={`${assemblyLabel}-${screenSize}`}>
-                        {/* Label Above the Banner */}
-                        <div
-                          style={{
-                            backgroundColor:
-                              index === 0 ? "#007BFF" : "#e0e0e0",
-                            color: index === 0 ? "#fff" : "#333",
-                            fontWeight: "bold",
-                            padding: "5px 10px",
-                            textAlign: "center",
-                            marginBottom: "10px",
-                          }}
-                        >
-                          {labelText}
-                        </div>
-
-                        {/* Banner Content */}
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
-                            gap: "10px",
-                            justifyItems: "center",
-                            backgroundColor: metadata.bannerColor,
-                            padding: "10px",
-                          }}
-                        >
-                          {assetChunks.map((chunk, chunkIndex) => (
-                            <React.Fragment key={`chunk-${chunkIndex}`}>
-                              {chunk.map((asset) => (
-                                <div
-                                  key={`${assemblyLabel}-${screenSize}-${asset.id}`}
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    width: `${cellSize}px`,
-                                  }}
-                                >
-                                  {/* Asset Image */}
-                                  <div
-                                    style={{
-                                      backgroundColor: asset.backgroundColor,
-                                      borderRadius: "50%",
-                                      overflow:
-                                        imageBehaviors[asset.id] === "overflow"
-                                          ? "visible"
-                                          : "hidden",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      width: `${cellSize}px`,
-                                      height: `${cellSize}px`,
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    <img
-                                      src={asset.mockup[activeTab]}
-                                      alt={asset.label}
-                                      style={getImageStyle(
-                                        imageBehaviors[asset.id],
-                                        cellSize
-                                      )}
-                                    />
-                                  </div>
-
-                                  {/* Asset Label */}
-                                  <div
-                                    style={{
-                                      fontSize: "12px",
-                                      textAlign: "center",
-                                      whiteSpace: "normal",
-                                    }}
-                                  >
-                                    {asset.label}
-                                  </div>
-                                </div>
-                              ))}
-                            </React.Fragment>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Buttons */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "10px",
-                  }}
-                >
-                  <button
-                    onClick={() => handleAction("approve")}
-                    style={{
-                      padding: "5px 10px",
-                      backgroundColor: "#89CFF0",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      marginRight: "10px",
-                    }}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleAction("reject")}
-                    style={{
-                      padding: "5px 10px",
-                      backgroundColor: "#dc3545",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      marginRight: "10px",
-                    }}
-                  >
-                    Reject
-                  </button>
-                  {assemblyStatus[assemblyLabel]?.status ? (
+                {/* If assembly is collapsed, show expand button */}
+                {isCollapsed ? (
+                  <div>
                     <button
-                      onClick={() => handleUndo(assemblyLabel)}
+                      onClick={() =>
+                        setCollapsedAssemblies((prev) => ({
+                          ...prev,
+                          [assemblyLabel]: false,
+                        }))
+                      }
                       style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        color: "black",
-                        textDecoration: "underline",
+                        marginTop: "10px",
+                        padding: "10px 20px",
+                        borderRadius: "5px",
                         cursor: "pointer",
-                        marginRight: "10px",
+                        fontSize: "16px",
                       }}
                     >
-                      Undo
+                      Show {assemblyLabel}-row Assembly
                     </button>
-                  ) : null}
-                  <button
-                    onClick={() => handleAction("delete")}
-                    style={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                      color: "black",
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Delete
-                  </button>
-                  {/* Display Status */}
-                  {assemblyStatus[assemblyLabel]?.status && (
-                    <div style={{ marginLeft: "20px", fontWeight: "bold" }}>
-                      Status: {assemblyStatus[assemblyLabel].status}
+                  </div>
+                ) : (
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        overflowX: "auto",
+                      }}
+                    >
+                      {xLabels.map((screenSize, index) => {
+                        const isDesktop = activeTab === "desktop";
+                        const cellSize = getImageSize(
+                          assemblyLabel,
+                          screenSize
+                        );
+                        const labelText = `${screenSize} (${
+                          isDesktop ? "D" : "M"
+                        })`;
+
+                        return (
+                          <div key={`${assemblyLabel}-${screenSize}`}>
+                            {/* Label Above the Banner */}
+                            <div
+                              style={{
+                                backgroundColor:
+                                  index === 0 ? "#007BFF" : "#e0e0e0",
+                                color: index === 0 ? "#fff" : "#333",
+                                fontWeight: "bold",
+                                padding: "5px 10px",
+                                textAlign: "center",
+                                marginBottom: "10px",
+                              }}
+                            >
+                              {labelText}
+                            </div>
+
+                            {/* Banner Content */}
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                backgroundColor: metadata.bannerColor,
+                                padding: "10px",
+                                position: "relative",
+                              }}
+                            >
+                              {/* Assets Grid */}
+                              <div
+                                style={{
+                                  display: "grid",
+                                  gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
+                                  gap: "10px",
+                                  justifyItems: "center",
+                                }}
+                              >
+                                {/* Render Assets */}
+                                {assetChunks.map((chunk, chunkIndex) => (
+                                  <React.Fragment key={`chunk-${chunkIndex}`}>
+                                    {chunk.map((asset) => (
+                                      <div
+                                        key={`${assemblyLabel}-${screenSize}-${asset.id}`}
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "center",
+                                          width: `${cellSize}px`,
+                                        }}
+                                      >
+                                        {/* Asset Image */}
+                                        <div
+                                          style={{
+                                            backgroundColor:
+                                              asset.backgroundColor,
+                                            borderRadius: "50%",
+                                            overflow:
+                                              imageBehaviors[asset.id] ===
+                                              "overflow"
+                                                ? "visible"
+                                                : "hidden",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            width: `${cellSize}px`,
+                                            height: `${cellSize}px`,
+                                            marginBottom: "5px",
+                                          }}
+                                        >
+                                          <img
+                                            src={asset.mockup[activeTab]}
+                                            alt={asset.label}
+                                            style={getImageStyle(
+                                              imageBehaviors[asset.id],
+                                              cellSize
+                                            )}
+                                          />
+                                        </div>
+
+                                        {/* Asset Label */}
+                                        <div
+                                          style={{
+                                            fontSize: "12px",
+                                            textAlign: "center",
+                                            whiteSpace: "normal",
+                                          }}
+                                        >
+                                          {asset.label}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </React.Fragment>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  )}
-                </div>
+
+                    {/* Buttons */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <button
+                        onClick={() => handleAction("approve")}
+                        style={{
+                          padding: "5px 10px",
+                          backgroundColor: "#89CFF0",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          marginRight: "10px",
+                        }}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => handleAction("reject")}
+                        style={{
+                          padding: "5px 10px",
+                          backgroundColor: "#dc3545",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          marginRight: "10px",
+                        }}
+                      >
+                        Reject
+                      </button>
+                      {assemblyStatus[assemblyLabel]?.status ? (
+                        <button
+                          onClick={() => handleUndo(assemblyLabel)}
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            color: "black",
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                            marginRight: "10px",
+                          }}
+                        >
+                          Undo
+                        </button>
+                      ) : null}
+                      <button
+                        onClick={() => handleAction("delete")}
+                        style={{
+                          backgroundColor: "transparent",
+                          border: "none",
+                          color: "black",
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Delete
+                      </button>
+                      {/* Display Status */}
+                      {assemblyStatus[assemblyLabel]?.status && (
+                        <div style={{ marginLeft: "20px", fontWeight: "bold" }}>
+                          Status: {assemblyStatus[assemblyLabel].status}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -778,10 +782,10 @@ const ResponsiveAssetManager = () => {
           <div style={modalContentStyle}>
             <h3>
               {showModal.type === "approve"
-                ? `Approve ${showModal.assembly}`
+                ? `Approve ${showModal.assembly}-row Assembly`
                 : showModal.type === "reject"
-                ? `Reject ${showModal.assembly}`
-                : `Delete ${showModal.assembly}`}
+                ? `Reject ${showModal.assembly}-row Assembly`
+                : `Delete ${showModal.assembly}-row Assembly`}
             </h3>
             {(showModal.type === "approve" || showModal.type === "reject") && (
               <textarea
@@ -871,3 +875,109 @@ const textareaStyle = {
 };
 
 export default ResponsiveAssetManager;
+
+import React from "react";
+
+export function SortableItem({
+  id,
+  asset,
+  imageBehaviors,
+  handleBehaviorChange,
+  getImageStyle,
+  handleDeleteItem,
+  onDragStart,
+  onDragOver,
+  onDrop,
+}) {
+  const style = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10px",
+    padding: "10px",
+    border: "1px solid #e0e0e0",
+    backgroundColor: "#fafafa",
+    position: "relative",
+  };
+
+  return (
+    <div
+      draggable="true"
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      style={style}
+    >
+      {/* Delete Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent triggering drag
+          handleDeleteItem(asset.id);
+        }}
+        style={{
+          position: "absolute",
+          top: "5px",
+          right: "5px",
+          backgroundColor: "transparent",
+          border: "none",
+          fontSize: "16px",
+          cursor: "pointer",
+          color: "#ff0000",
+        }}
+        title="Delete Asset"
+      >
+        &times;
+      </button>
+
+      {/* Draggable Area */}
+      <div style={{ cursor: "grab", width: "100%" }}>
+        {/* Image with Background */}
+        <div
+          style={{
+            backgroundColor: asset.backgroundColor,
+            borderRadius: "50%",
+            overflow:
+              imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "75px",
+            height: "75px",
+            margin: "0 auto",
+          }}
+        >
+          <img
+            src={asset.image}
+            alt={asset.label}
+            style={getImageStyle(imageBehaviors[asset.id], 75)}
+          />
+        </div>
+
+        {/* Asset Label */}
+        <div style={{ fontWeight: "bold", textAlign: "center" }}>
+          {asset.label}
+        </div>
+      </div>
+
+      {/* Dropdown Selection */}
+      <select
+        value={imageBehaviors[asset.id]}
+        onChange={(e) => handleBehaviorChange(asset.id, e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          width: "100%",
+        }}
+      >
+        {asset.options.map((option) => (
+          <option key={option} value={option}>
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+

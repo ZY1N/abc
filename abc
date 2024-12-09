@@ -1,13 +1,311 @@
- //new
+/* Prefix all classes with hubspokep- */
+
+.hubspokep-container {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hubspokep-top-section {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.hubspokep-meta-details {
+  width: 25%;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #333;
+}
+
+.hubspokep-meta-details-content {
+  margin-bottom: 20px;
+  padding: 15px;
+  width: 100%;
+}
+
+.hubspokep-meta-details-content h3 {
+  margin-bottom: 10px;
+}
+
+.hubspokep-add-item {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.hubspokep-add-item input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.hubspokep-add-item button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.hubspokep-assets-section {
+  width: 75%;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hubspokep-assets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hubspokep-assets-header h2 {
+  margin: 0;
+}
+
+.hubspokep-assets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.hubspokep-action-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.hubspokep-approve-button {
+  background-color: #89cff0;
+}
+
+.hubspokep-reject-button {
+  background-color: #dc3545;
+}
+
+.hubspokep-delete-button,
+.hubspokep-undo-button {
+  background-color: #666;
+}
+
+.hubspokep-tabs {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.hubspokep-tabs button {
+  flex: 1;
+  padding: 20px;
+  font-size: 18px;
+  background-color: #d3d3d3;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.hubspokep-tabs button.hubspokep-active {
+  border-bottom: 2px solid darkblue;
+  color: darkblue;
+}
+
+/* Desktop active: add right border */
+.hubspokep-tabs button.hubspokep-active.hubspokep-desktop {
+  border-right: 2px solid darkblue;
+}
+
+/* Mobile active: add left border */
+.hubspokep-tabs button.hubspokep-active.hubspokep-mobile {
+  border-left: 2px solid darkblue;
+}
+
+.hubspokep-assembly-selection {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.hubspokep-assembly-selection label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.hubspokep-assembly-selection select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.hubspokep-banner-container {
+  margin-bottom: 40px;
+  padding: 10px;
+  position: relative;
+}
+
+.hubspokep-assembly-label {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  background-color: #e0e0e0;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  letter-spacing: 2px;
+}
+
+.hubspokep-banner-label {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.hubspokep-banner {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--banner-color, #f5f5f5);
+  padding: 10px;
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.hubspokep-page-name {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+.hubspokep-banner-grid {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+.hubspokep-save-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.hubspokep-save-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hubspokep-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.hubspokep-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.hubspokep-modal-content button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hubspokep-modal-textarea {
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.hubspokep-sortable-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #fafafa;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+}
+
+.hubspokep-sortable-item.selected {
+  border: 2px solid #007bff;
+}
+
+.hubspokep-sortable-item-image-container {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+}
+
+.hubspokep-sortable-item-label {
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+}
+
+.hubspokep-sortable-item select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+
+
+
 
 import React, { useState, useEffect } from "react";
-import { SortableItem } from "./SortableItem"; // Ensure you have this component
+import { SortableItem } from "./SortableItem";
+import "./ResponsiveAssetManager.css";
 
 const initialAssets = [
-  ...Array(4) // Adjusted to 4 items for demonstration
+  ...Array(4)
     .fill()
     .map((_, idx) => ({
       id: idx + 1,
+      originalLabel: `Asset ${idx + 1}`,
       label: `Asset ${idx + 1}`,
       image: "https://img.icons8.com/color/200/000000/trousers.png",
       groupName: "Group A",
@@ -18,6 +316,7 @@ const initialAssets = [
       },
       options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
       defaultOption: "tight",
+      status: null,
     })),
 ];
 
@@ -27,7 +326,7 @@ const metadata = {
   creationDate: "2024-11-26",
   status: "Pending",
   deviceType: "Desktop",
-  bannerColor: "#f5f5f5", // Unified banner background color
+  bannerColor: "#f5f5f5",
 };
 
 const desktopYLabels = ["4", "6"];
@@ -43,66 +342,67 @@ const ResponsiveAssetManager = () => {
     }, {})
   );
   const [newItemId, setNewItemId] = useState("");
-  const [assemblyStatus, setAssemblyStatus] = useState({});
-  const [checkedAssemblies, setCheckedAssemblies] = useState({});
+
+  const [selectedAssetId, setSelectedAssetId] = useState(null);
+  const [selectedAssembly, setSelectedAssembly] = useState("4");
+  const [innerCollapsed, setInnerCollapsed] = useState(true);
+
   const [modalInput, setModalInput] = useState({
     reason: "",
     details: "",
     recommendations: "",
   });
-  const [showModal, setShowModal] = useState({
-    type: "", // 'approve', 'reject', 'delete'
-    assembly: "",
-  });
-  const [warningMessage, setWarningMessage] = useState("");
+  const [showModal, setShowModal] = useState({ type: "", assetId: null });
 
   const [draggedItemId, setDraggedItemId] = useState(null);
-  const [collapsedAssemblies, setCollapsedAssemblies] = useState({});
 
-  // Define xLabels based on the active tab
   const xLabels = activeTab === "desktop" ? ["1280", "lnh"] : ["375"];
 
-  useEffect(() => {
-    const initialCollapsedState = {};
-    const assemblies = activeTab === "desktop" ? desktopYLabels : mobileYLabels;
-    assemblies.forEach((assemblyLabel) => {
-      const maxItemsPerRow = parseInt(assemblyLabel);
+  const chunkArray = (array, size) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  };
 
-      if (activeTab === "desktop") {
-        if (assetsState.length > 4 && maxItemsPerRow === 4) {
-          initialCollapsedState[assemblyLabel] = true; // Collapse 4-row assembly
-        } else if (assetsState.length <= 4 && maxItemsPerRow === 6) {
-          initialCollapsedState[assemblyLabel] = true; // Collapse 6-row assembly
-        } else {
-          initialCollapsedState[assemblyLabel] = false;
-        }
+  const updateAssembly = () => {
+    const count = assetsState.length;
+    if (activeTab === "desktop") {
+      if (count > 4) {
+        setSelectedAssembly("6");
       } else {
-        // For mobile, adjust default view based on number of assets
-        if (assetsState.length >= 4) {
-          // If 4 or more assets, show 2-row assembly, collapse others
-          if (maxItemsPerRow === 2) {
-            initialCollapsedState[assemblyLabel] = false; // Show 2-row assembly
-          } else {
-            initialCollapsedState[assemblyLabel] = true; // Collapse other assemblies
-          }
-        } else {
-          // If fewer than 4 assets, show 3-row assembly, collapse others
-          if (maxItemsPerRow === 3) {
-            initialCollapsedState[assemblyLabel] = false; // Show 3-row assembly
-          } else {
-            initialCollapsedState[assemblyLabel] = true; // Collapse other assemblies
-          }
-        }
+        setSelectedAssembly("4");
       }
-    });
-    setCollapsedAssemblies(initialCollapsedState);
-  }, [assetsState, activeTab]);
+    } else {
+      if (count <= 4) {
+        setSelectedAssembly("2");
+      } else {
+        setSelectedAssembly("3");
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateAssembly();
+  }, [activeTab, assetsState]);
+
+  useEffect(() => {
+    if (activeTab === "mobile") {
+      const maxItemsPerRow = parseInt(selectedAssembly, 10);
+      const assetChunks = chunkArray(assetsState, maxItemsPerRow);
+      setInnerCollapsed(assetChunks.length > 2);
+    } else {
+      setInnerCollapsed(false);
+    }
+  }, [activeTab, selectedAssembly, assetsState]);
 
   const handleBehaviorChange = (id, behavior) => {
     setImageBehaviors((prev) => ({
       ...prev,
       [id]: behavior,
     }));
+    setSelectedAssetId(id);
   };
 
   const getImageStyle = (behavior, size) => {
@@ -138,58 +438,38 @@ const ResponsiveAssetManager = () => {
     }
   };
 
-  // Updated function to return specific image sizes
   const getImageSize = (assemblyLabel, screenSize) => {
-    const maxItemsPerRow = parseInt(assemblyLabel);
+    const maxItemsPerRow = parseInt(assemblyLabel, 10);
     const isDesktop = activeTab === "desktop";
 
     if (isDesktop) {
       if (screenSize === "1280") {
-        if (maxItemsPerRow === 4) {
-          return 290;
-        } else if (maxItemsPerRow === 6) {
-          return 192;
-        }
+        if (maxItemsPerRow === 4) return 290;
+        if (maxItemsPerRow === 6) return 192;
       } else if (screenSize === "lnh") {
-        if (maxItemsPerRow === 4) {
-          return 200;
-        } else if (maxItemsPerRow === 6) {
-          return 132;
-        }
+        if (maxItemsPerRow === 4) return 200;
+        if (maxItemsPerRow === 6) return 132;
       }
     } else {
       if (screenSize === "375") {
-        if (maxItemsPerRow === 2) {
-          return 135;
-        } else if (maxItemsPerRow === 3) {
-          return 104;
-        }
+        if (maxItemsPerRow === 2) return 135;
+        if (maxItemsPerRow === 3) return 104;
       }
     }
 
-    // Default size if no match
     return 100;
   };
 
-  const chunkArray = (array, size) => {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  };
-
   const handleAddNewItem = () => {
-    if (
-      !newItemId ||
-      assetsState.some((asset) => asset.id === parseInt(newItemId))
-    ) {
+    const newId = parseInt(newItemId, 10);
+    if (!newItemId || assetsState.some((asset) => asset.id === newId)) {
       alert("Invalid or duplicate ID. Please enter a unique ID.");
       return;
     }
 
     const newAsset = {
-      id: parseInt(newItemId),
+      id: newId,
+      originalLabel: `Asset ${newItemId}`,
       label: `Asset ${newItemId}`,
       image: "https://img.icons8.com/color/200/000000/trousers.png",
       groupName: "Group A",
@@ -200,25 +480,16 @@ const ResponsiveAssetManager = () => {
       },
       options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
       defaultOption: "tight",
+      status: null,
     };
 
     setAssetsState((prev) => [...prev, newAsset]);
     setImageBehaviors((prev) => ({
       ...prev,
-      [newAsset.id]: newAsset.defaultOption,
+      [newId]: newAsset.defaultOption,
     }));
     setNewItemId("");
-  };
-
-  const handleDeleteItem = (id) => {
-    setAssetsState((prevAssets) =>
-      prevAssets.filter((asset) => asset.id !== id)
-    );
-    setImageBehaviors((prev) => {
-      const updated = { ...prev };
-      delete updated[id];
-      return updated;
-    });
+    updateAssembly();
   };
 
   const handleDragStart = (e, id) => {
@@ -226,14 +497,13 @@ const ResponsiveAssetManager = () => {
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDragOver = (e, id) => {
-    e.preventDefault(); // Necessary to allow drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   };
 
   const handleDrop = (e, id) => {
     e.preventDefault();
-
     const draggedIndex = assetsState.findIndex(
       (item) => item.id === draggedItemId
     );
@@ -249,507 +519,338 @@ const ResponsiveAssetManager = () => {
     setDraggedItemId(null);
   };
 
-  const handleAction = (actionType) => {
-    const selectedAssemblies = Object.keys(checkedAssemblies).filter(
-      (key) => checkedAssemblies[key]
-    );
-    if (selectedAssemblies.length === 0) {
-      setWarningMessage("Nothing was selected");
-      setTimeout(() => {
-        setWarningMessage("");
-      }, 3000);
-      return;
-    }
-    setShowModal({ type: actionType, assembly: selectedAssemblies[0] }); // Assuming one assembly at a time
+  const handleSelectAsset = (assetId) => {
+    setSelectedAssetId(assetId === selectedAssetId ? null : assetId);
   };
 
-  const handleUndo = (assemblyLabel) => {
-    setAssemblyStatus((prev) => {
-      const updated = { ...prev };
-      delete updated[assemblyLabel];
-      return updated;
-    });
+  const removeStatusFromLabel = (label) => {
+    return label.replace(/\s*\([ar]\)$/, "");
+  };
+
+  const updateAssetStatus = (assetId, newStatus) => {
+    if (newStatus === "Deleted") {
+      setAssetsState((prevAssets) =>
+        prevAssets.filter((asset) => asset.id !== assetId)
+      );
+      setSelectedAssetId(null);
+      updateAssembly();
+      return;
+    }
+
+    setAssetsState((prevAssets) =>
+      prevAssets.map((asset) => {
+        if (asset.id === assetId) {
+          let newLabel = asset.originalLabel;
+          if (newStatus === "Approved") {
+            newLabel = removeStatusFromLabel(asset.label);
+            newLabel += " (a)";
+          } else if (newStatus === "Rejected") {
+            newLabel = removeStatusFromLabel(asset.label);
+            newLabel += " (r)";
+          } else if (newStatus === null) {
+            newLabel = asset.originalLabel;
+          }
+          return { ...asset, status: newStatus, label: newLabel };
+        }
+        return asset;
+      })
+    );
+  };
+
+  const handleAction = (actionType) => {
+    if (!selectedAssetId) {
+      alert("No asset selected.");
+      return;
+    }
+    const selectedAsset = assetsState.find(
+      (asset) => asset.id === selectedAssetId
+    );
+    if (selectedAsset) {
+      if (actionType === "undo") {
+        updateAssetStatus(selectedAssetId, null);
+        setSelectedAssetId(null);
+      } else {
+        setShowModal({ type: actionType, assetId: selectedAssetId });
+        setModalInput({ reason: "", details: "", recommendations: "" });
+      }
+    }
   };
 
   const handleModalSubmit = () => {
-    const { type, assembly } = showModal;
-    if (type === "approve" || type === "reject") {
-      setAssemblyStatus((prev) => ({
-        ...prev,
-        [assembly]: {
-          status: type === "approve" ? "Approved" : "Rejected",
-          reason: modalInput.reason,
-        },
-      }));
+    const { type, assetId } = showModal;
+    if (type === "approve") {
+      updateAssetStatus(assetId, "Approved");
+    } else if (type === "reject") {
+      updateAssetStatus(assetId, "Rejected");
     } else if (type === "delete") {
-      setAssemblyStatus((prev) => ({
-        ...prev,
-        [assembly]: {
-          status: "Deleted",
-        },
-      }));
+      updateAssetStatus(assetId, "Deleted");
     }
-    setShowModal({ type: "", assembly: "" });
+    setShowModal({ type: "", assetId: null });
     setModalInput({ reason: "", details: "", recommendations: "" });
-    setCheckedAssemblies((prev) => ({
-      ...prev,
-      [assembly]: false,
-    }));
+    setSelectedAssetId(null);
+    updateAssembly();
   };
 
   const handleModalClose = () => {
-    setShowModal({ type: "", assembly: "" });
+    setShowModal({ type: "", assetId: null });
     setModalInput({ reason: "", details: "", recommendations: "" });
   };
 
-  const renderMockupSections = (assemblies) => (
-    <div>
-      {assemblies.map((assemblyLabel) => {
-        const maxItemsPerRow = parseInt(assemblyLabel);
-        const assemblyState = assemblyStatus[assemblyLabel] || {};
+  const handleAssemblyChange = (e) => {
+    setSelectedAssembly(e.target.value);
+  };
 
-        const isCollapsed = collapsedAssemblies[assemblyLabel];
+  const renderMockupSections = (assemblies) => {
+    const isMobile = activeTab === "mobile";
+    return (
+      <div>
+        {assemblies.map((assemblyLabel) => {
+          const maxItemsPerRow = parseInt(assemblyLabel, 10);
+          let assetChunks = chunkArray(assetsState, maxItemsPerRow);
 
-        let assetChunks = chunkArray(assetsState, maxItemsPerRow);
+          if (isMobile && innerCollapsed && assetChunks.length > 2) {
+            assetChunks = assetChunks.slice(0, 2);
+          }
 
-        const shouldHideAssemblyLabel = isCollapsed;
-
-        return (
-          <div
-            key={assemblyLabel}
-            style={{
-              marginBottom: "40px",
-              padding: "10px",
-              position: "relative",
-            }}
-          >
-            {/* Warning Message */}
-            {warningMessage && (
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-30px",
-                  left: "0",
-                  color: "red",
-                  backgroundColor: "pink",
-                  padding: "5px",
-                }}
-              >
-                {warningMessage}
-              </div>
-            )}
-
-            <div style={{ display: "flex" }}>
-              {/* Assembly Label with Checkbox */}
-              {!shouldHideAssemblyLabel && (
-                <div
-                  style={{
-                    writingMode: "vertical-lr",
-                    transform: "rotate(180deg)",
-                    backgroundColor: "#e0e0e0",
-                    padding: "10px",
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    marginRight: "20px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                    letterSpacing: "2px",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={checkedAssemblies[assemblyLabel] || false}
-                    onChange={(e) =>
-                      setCheckedAssemblies((prev) => ({
-                        ...prev,
-                        [assemblyLabel]: e.target.checked,
-                      }))
-                    }
-                    style={{
-                      position: "absolute",
-                      top: "10px",
-                      left: "10px",
-                      transform: "rotate(180deg)",
-                    }}
-                  />
+          return (
+            <div className="hubspokep-banner-container" key={assemblyLabel}>
+              <div style={{ display: "flex" }}>
+                <div className="hubspokep-assembly-label">
                   {`${assemblyLabel}-row Assembly`}
                 </div>
-              )}
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{ display: "flex", gap: "20px", overflowX: "auto" }}
+                  >
+                    {xLabels.map((screenSize, index) => {
+                      const cellSize = getImageSize(assemblyLabel, screenSize);
+                      const labelText = `${screenSize} (${
+                        activeTab === "desktop" ? "D" : "M"
+                      })`;
 
-              {/* Row of Banners */}
-              <div
-                style={{
-                  flex: 1,
-                }}
-              >
-                {/* If assembly is collapsed, show expand button */}
-                {isCollapsed ? (
-                  <div>
-                    <button
-                      onClick={() =>
-                        setCollapsedAssemblies((prev) => ({
-                          ...prev,
-                          [assemblyLabel]: false,
-                        }))
-                      }
-                      style={{
-                        marginTop: "10px",
-                        padding: "10px 20px",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                      }}
-                    >
-                      Show {assemblyLabel}-row Assembly
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        overflowX: "auto",
-                      }}
-                    >
-                      {xLabels.map((screenSize, index) => {
-                        const isDesktop = activeTab === "desktop";
-                        const cellSize = getImageSize(
-                          assemblyLabel,
-                          screenSize
-                        );
-                        const labelText = `${screenSize} (${
-                          isDesktop ? "D" : "M"
-                        })`;
-
-                        return (
-                          <div key={`${assemblyLabel}-${screenSize}`}>
-                            {/* Label Above the Banner */}
-                            <div
-                              style={{
-                                backgroundColor:
-                                  index === 0 ? "#007BFF" : "#e0e0e0",
-                                color: index === 0 ? "#fff" : "#333",
-                                fontWeight: "bold",
-                                padding: "5px 10px",
-                                textAlign: "center",
-                                marginBottom: "10px",
-                              }}
-                            >
-                              {labelText}
+                      return (
+                        <div key={`${assemblyLabel}-${screenSize}`}>
+                          <div
+                            className="hubspokep-banner-label"
+                            style={{
+                              backgroundColor:
+                                index === 0 ? "#007BFF" : "#e0e0e0",
+                              color: index === 0 ? "#fff" : "#333",
+                            }}
+                          >
+                            {labelText}
+                          </div>
+                          <div
+                            className="hubspokep-banner"
+                            style={{ backgroundColor: metadata.bannerColor }}
+                          >
+                            <div className="hubspokep-page-name">
+                              {metadata.pageName}
                             </div>
-
-                            {/* Banner Content */}
                             <div
+                              className="hubspokep-banner-grid"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                backgroundColor: metadata.bannerColor,
-                                padding: "10px",
-                                position: "relative",
+                                gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
                               }}
                             >
-                              {/* Assets Grid */}
-                              <div
-                                style={{
-                                  display: "grid",
-                                  gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
-                                  gap: "10px",
-                                  justifyItems: "center",
-                                }}
-                              >
-                                {/* Render Assets */}
-                                {assetChunks.map((chunk, chunkIndex) => (
-                                  <React.Fragment key={`chunk-${chunkIndex}`}>
-                                    {chunk.map((asset) => (
+                              {assetChunks.map((chunk, chunkIndex) => (
+                                <React.Fragment key={`chunk-${chunkIndex}`}>
+                                  {chunk.map((asset) => (
+                                    <div
+                                      key={`${assemblyLabel}-${screenSize}-${asset.id}`}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        width: `${cellSize}px`,
+                                      }}
+                                    >
                                       <div
-                                        key={`${assemblyLabel}-${screenSize}-${asset.id}`}
                                         style={{
+                                          backgroundColor:
+                                            asset.backgroundColor,
+                                          borderRadius: "50%",
+                                          overflow:
+                                            imageBehaviors[asset.id] ===
+                                            "overflow"
+                                              ? "visible"
+                                              : "hidden",
                                           display: "flex",
-                                          flexDirection: "column",
+                                          justifyContent: "center",
                                           alignItems: "center",
                                           width: `${cellSize}px`,
+                                          height: `${cellSize}px`,
+                                          marginBottom: "5px",
                                         }}
                                       >
-                                        {/* Asset Image */}
-                                        <div
-                                          style={{
-                                            backgroundColor:
-                                              asset.backgroundColor,
-                                            borderRadius: "50%",
-                                            overflow:
-                                              imageBehaviors[asset.id] ===
-                                              "overflow"
-                                                ? "visible"
-                                                : "hidden",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            width: `${cellSize}px`,
-                                            height: `${cellSize}px`,
-                                            marginBottom: "5px",
-                                          }}
-                                        >
-                                          <img
-                                            src={asset.mockup[activeTab]}
-                                            alt={asset.label}
-                                            style={getImageStyle(
-                                              imageBehaviors[asset.id],
-                                              cellSize
-                                            )}
-                                          />
-                                        </div>
-
-                                        {/* Asset Label */}
-                                        <div
-                                          style={{
-                                            fontSize: "12px",
-                                            textAlign: "center",
-                                            whiteSpace: "normal",
-                                          }}
-                                        >
-                                          {asset.label}
-                                        </div>
+                                        <img
+                                          src={asset.mockup[activeTab]}
+                                          alt={asset.label}
+                                          style={getImageStyle(
+                                            imageBehaviors[asset.id],
+                                            cellSize
+                                          )}
+                                        />
                                       </div>
-                                    ))}
-                                  </React.Fragment>
-                                ))}
-                              </div>
+                                      <div
+                                        style={{
+                                          fontSize: "12px",
+                                          textAlign: "center",
+                                          whiteSpace: "normal",
+                                        }}
+                                      >
+                                        {asset.label}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </React.Fragment>
+                              ))}
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
 
-                    {/* Buttons */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <button
-                        onClick={() => handleAction("approve")}
-                        style={{
-                          padding: "5px 10px",
-                          backgroundColor: "#89CFF0",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          marginRight: "10px",
-                        }}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => handleAction("reject")}
-                        style={{
-                          padding: "5px 10px",
-                          backgroundColor: "#dc3545",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          marginRight: "10px",
-                        }}
-                      >
-                        Reject
-                      </button>
-                      {assemblyStatus[assemblyLabel]?.status ? (
-                        <button
-                          onClick={() => handleUndo(assemblyLabel)}
-                          style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            color: "black",
-                            textDecoration: "underline",
-                            cursor: "pointer",
-                            marginRight: "10px",
-                          }}
-                        >
-                          Undo
-                        </button>
-                      ) : null}
-                      <button
-                        onClick={() => handleAction("delete")}
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "none",
-                          color: "black",
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Delete
-                      </button>
-                      {/* Display Status */}
-                      {assemblyStatus[assemblyLabel]?.status && (
-                        <div style={{ marginLeft: "20px", fontWeight: "bold" }}>
-                          Status: {assemblyStatus[assemblyLabel].status}
+                            {isMobile &&
+                              chunkArray(assetsState, maxItemsPerRow).length >
+                                2 && (
+                                <button
+                                  onClick={() =>
+                                    setInnerCollapsed((prev) => !prev)
+                                  }
+                                  style={{
+                                    marginTop: "10px",
+                                    alignSelf: "center",
+                                    padding: "8px 16px",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    backgroundColor: "#007BFF",
+                                    color: "#fff",
+                                    border: "none",
+                                  }}
+                                >
+                                  {innerCollapsed ? "Expand" : "Collapse"}
+                                </button>
+                              )}
+                          </div>
                         </div>
-                      )}
-                    </div>
+                      );
+                    })}
                   </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const handleContainerClick = () => {
+    setSelectedAssetId(null);
+  };
+
+  // Determine which buttons to show based on selected asset's status
+  let actionButtons = null;
+  if (selectedAssetId) {
+    const selectedAsset = assetsState.find(
+      (asset) => asset.id === selectedAssetId
+    );
+    if (selectedAsset) {
+      if (
+        selectedAsset.status === "Approved" ||
+        selectedAsset.status === "Rejected"
+      ) {
+        // Show Undo & Delete
+        actionButtons = (
+          <>
+            <button
+              className="hubspokep-action-button hubspokep-undo-button"
+              onClick={() => handleAction("undo")}
+            >
+              Undo
+            </button>
+            <button
+              className="hubspokep-action-button hubspokep-delete-button"
+              onClick={() => handleAction("delete")}
+            >
+              Delete
+            </button>
+          </>
         );
-      })}
-    </div>
-  );
+      } else {
+        // Show Approve/Reject/Delete
+        actionButtons = (
+          <>
+            <button
+              className="hubspokep-action-button hubspokep-approve-button"
+              onClick={() => handleAction("approve")}
+            >
+              Approve
+            </button>
+            <button
+              className="hubspokep-action-button hubspokep-reject-button"
+              onClick={() => handleAction("reject")}
+            >
+              Reject
+            </button>
+            <button
+              className="hubspokep-action-button hubspokep-delete-button"
+              onClick={() => handleAction("delete")}
+            >
+              Delete
+            </button>
+          </>
+        );
+      }
+    }
+  }
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-      {/* Control Buttons */}
-      <div style={{ display: "flex", width: "100%", marginBottom: "20px" }}>
-        <button
-          onClick={() => {
-            setActiveTab("desktop");
-            metadata.deviceType = "Desktop";
-          }}
-          style={{
-            flex: 1,
-            padding: "20px",
-            fontSize: "18px",
-            backgroundColor: "#d3d3d3",
-            border: "none",
-            borderBottom:
-              activeTab === "desktop" ? "2px solid darkblue" : "none",
-            borderRight:
-              activeTab === "desktop" ? "2px solid darkblue" : "none",
-            color: activeTab === "desktop" ? "darkblue" : "black",
-            cursor: "pointer",
-            outline: "none",
-            textTransform: "uppercase",
-          }}
-          aria-label="Switch to Desktop Tab"
-        >
-          Desktop
-        </button>
-        <button
-          onClick={() => {
-            setActiveTab("mobile");
-            metadata.deviceType = "Mobile";
-          }}
-          style={{
-            flex: 1,
-            padding: "20px",
-            fontSize: "18px",
-            backgroundColor: "#d3d3d3",
-            border: "none",
-            borderBottom:
-              activeTab === "mobile" ? "2px solid darkblue" : "none",
-            borderLeft: activeTab === "mobile" ? "2px solid darkblue" : "none",
-            color: activeTab === "mobile" ? "darkblue" : "black",
-            cursor: "pointer",
-            outline: "none",
-            textTransform: "uppercase",
-          }}
-          aria-label="Switch to Mobile Tab"
-        >
-          Mobile
-        </button>
-      </div>
-
-      {/* Control Panel */}
+    <div className="hubspokep-container" onClick={handleContainerClick}>
+      {/* Top Section: Meta Details & Assets */}
       <div
-        style={{
-          marginBottom: "20px",
-          display: "flex",
-        }}
+        className="hubspokep-top-section"
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Meta Details and Add New Item */}
-        <div
-          style={{
-            width: "25%",
-            paddingRight: "15px",
-            display: "flex",
-            flexDirection: "column",
-            borderRight: "1px solid black",
-          }}
-        >
-          <div
-            style={{
-              marginBottom: "20px",
-              padding: "15px",
-              width: "100%",
-            }}
-          >
-            <h3 style={{ marginBottom: "10px" }}>Meta Details</h3>
-            <p style={{ margin: "5px 0" }}>
+        {/* Meta Details */}
+        <div className="hubspokep-meta-details">
+          <div className="hubspokep-meta-details-content">
+            <h3>Meta Details</h3>
+            <p>
               <strong>Page Name:</strong> {metadata.pageName}
             </p>
-            <p style={{ margin: "5px 0" }}>
+            <p>
               <strong>Creator:</strong> {metadata.creator}
             </p>
-            <p style={{ margin: "5px 0" }}>
+            <p>
               <strong>Creation Date:</strong> {metadata.creationDate}
             </p>
-            <p style={{ margin: "5px 0" }}>
+            <p>
               <strong>Status:</strong> {metadata.status}
             </p>
-            <p style={{ margin: "5px 0" }}>
+            <p>
               <strong>Device Type:</strong> {metadata.deviceType}
             </p>
           </div>
 
-          {/* Add New Item */}
-          <div
-            style={{
-              marginBottom: "20px",
-              width: "100%",
-            }}
-          >
+          <div className="hubspokep-add-item">
             <h4>Add New Item by ID</h4>
             <input
               type="text"
               placeholder="Enter new asset ID"
               value={newItemId}
               onChange={(e) => setNewItemId(e.target.value)}
-              style={{
-                padding: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                width: "100%",
-                marginBottom: "10px",
-              }}
             />
-            <button
-              onClick={handleAddNewItem}
-              style={{
-                padding: "5px 10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                cursor: "pointer",
-              }}
-            >
-              Add Item
-            </button>
+            <button onClick={handleAddNewItem}>Add Item</button>
           </div>
         </div>
 
-        {/* Assets List */}
-        <div style={{ width: "80%", paddingLeft: "15px" }}>
-          <h2 style={{ marginBottom: "20px" }}>Assets</h2>
+        {/* Assets Section */}
+        <div className="hubspokep-assets-section">
+          <div className="hubspokep-assets-header">
+            <h2>Assets</h2>
+            <div style={{ display: "inline-block" }}>{actionButtons}</div>
+          </div>
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
-              gap: "20px",
-              overflowY: "auto",
-              maxHeight: "400px",
-            }}
+            className="hubspokep-assets-grid"
+            onClick={(e) => e.stopPropagation()}
           >
             {assetsState.map((asset) => (
               <SortableItem
@@ -759,55 +860,117 @@ const ResponsiveAssetManager = () => {
                 imageBehaviors={imageBehaviors}
                 handleBehaviorChange={handleBehaviorChange}
                 getImageStyle={getImageStyle}
-                handleDeleteItem={handleDeleteItem}
                 onDragStart={(e) => handleDragStart(e, asset.id)}
-                onDragOver={(e) => handleDragOver(e, asset.id)}
+                onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, asset.id)}
+                onSelectAsset={handleSelectAsset}
+                isSelected={selectedAssetId === asset.id}
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* Render Mockup Sections */}
-      <div>
-        {renderMockupSections(
-          activeTab === "desktop" ? desktopYLabels : mobileYLabels
-        )}
+      {/* Tabs */}
+      <div className="hubspokep-tabs" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={() => {
+            setActiveTab("desktop");
+            metadata.deviceType = "Desktop";
+          }}
+          className={`hubspokep-${
+            activeTab === "desktop" ? "active hubspokep-desktop" : ""
+          }`}
+          aria-label="Switch to Desktop Tab"
+        >
+          Desktop
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("mobile");
+            metadata.deviceType = "Mobile";
+          }}
+          className={`hubspokep-${
+            activeTab === "mobile" ? "active hubspokep-mobile" : ""
+          }`}
+          aria-label="Switch to Mobile Tab"
+        >
+          Mobile
+        </button>
+      </div>
+
+      {/* Assembly Selection */}
+      <div
+        className="hubspokep-assembly-selection"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <label>Choose Assembly:</label>
+        <select value={selectedAssembly} onChange={handleAssemblyChange}>
+          {activeTab === "desktop"
+            ? desktopYLabels.map((label) => (
+                <option key={label} value={label}>
+                  {label}-row Assembly
+                </option>
+              ))
+            : mobileYLabels.map((label) => (
+                <option key={label} value={label}>
+                  {label}-row Assembly
+                </option>
+              ))}
+        </select>
+      </div>
+
+      {/* Render Selected Assembly */}
+      {renderMockupSections([selectedAssembly])}
+
+      {/* Save Button */}
+      <div className="hubspokep-save-button-container">
+        <button
+          className="hubspokep-save-button"
+          onClick={() => alert("Saved")}
+        >
+          Save
+        </button>
       </div>
 
       {/* Modals */}
       {showModal.type && (
-        <div style={modalStyle}>
-          <div style={modalContentStyle}>
+        <div
+          className="hubspokep-modal-overlay"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="hubspokep-modal-content">
             <h3>
               {showModal.type === "approve"
-                ? `Approve ${showModal.assembly}-row Assembly`
+                ? `Approve Asset ${showModal.assetId}`
                 : showModal.type === "reject"
-                ? `Reject ${showModal.assembly}-row Assembly`
-                : `Delete ${showModal.assembly}-row Assembly`}
+                ? `Reject Asset ${showModal.assetId}`
+                : `Delete Asset ${showModal.assetId}`}
             </h3>
             {(showModal.type === "approve" || showModal.type === "reject") && (
               <textarea
+                className="hubspokep-modal-textarea"
                 placeholder="Reason"
                 value={modalInput.reason}
                 onChange={(e) =>
                   setModalInput({ ...modalInput, reason: e.target.value })
                 }
-                style={textareaStyle}
               />
             )}
             {showModal.type === "reject" && (
               <>
                 <textarea
+                  className="hubspokep-modal-textarea"
                   placeholder="Details"
                   value={modalInput.details}
                   onChange={(e) =>
                     setModalInput({ ...modalInput, details: e.target.value })
                   }
-                  style={textareaStyle}
                 />
                 <textarea
+                  className="hubspokep-modal-textarea"
                   placeholder="Recommendations"
                   value={modalInput.recommendations}
                   onChange={(e) =>
@@ -816,18 +979,15 @@ const ResponsiveAssetManager = () => {
                       recommendations: e.target.value,
                     })
                   }
-                  style={textareaStyle}
                 />
               </>
             )}
             <div style={{ marginTop: "20px" }}>
-              <button onClick={handleModalSubmit} style={modalButtonStyle}>
+              <button onClick={handleModalSubmit}>
                 {showModal.type.charAt(0).toUpperCase() +
                   showModal.type.slice(1)}
               </button>
-              <button onClick={handleModalClose} style={modalButtonStyle}>
-                Cancel
-              </button>
+              <button onClick={handleModalClose}>Cancel</button>
             </div>
           </div>
         </div>
@@ -836,45 +996,9 @@ const ResponsiveAssetManager = () => {
   );
 };
 
-// Modal Styles
-const modalStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 1000,
-};
-
-const modalContentStyle = {
-  backgroundColor: "#fff",
-  padding: "20px",
-  borderRadius: "5px",
-  width: "400px",
-  maxWidth: "90%",
-};
-
-const modalButtonStyle = {
-  padding: "10px 20px",
-  marginRight: "10px",
-  backgroundColor: "#007BFF",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-};
-
-const textareaStyle = {
-  width: "100%",
-  height: "60px",
-  marginBottom: "10px",
-};
-
 export default ResponsiveAssetManager;
+
+
 
 import React from "react";
 
@@ -884,91 +1008,45 @@ export function SortableItem({
   imageBehaviors,
   handleBehaviorChange,
   getImageStyle,
-  handleDeleteItem,
   onDragStart,
   onDragOver,
   onDrop,
+  onSelectAsset,
+  isSelected,
 }) {
-  const style = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "10px",
-    padding: "10px",
-    border: "1px solid #e0e0e0",
-    backgroundColor: "#fafafa",
-    position: "relative",
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onSelectAsset(id);
   };
 
   return (
     <div
+      className={`hubspokep-sortable-item ${isSelected ? "selected" : ""}`}
       draggable="true"
-      onDragStart={onDragStart}
-      onDragOver={onDragOver}
-      onDrop={onDrop}
-      style={style}
+      onDragStart={(e) => onDragStart(e, id)}
+      onDragOver={(e) => onDragOver(e)}
+      onDrop={(e) => onDrop(e, id)}
+      onClick={handleClick}
+      title={asset.label}
     >
-      {/* Delete Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering drag
-          handleDeleteItem(asset.id);
-        }}
+      <div
+        className="hubspokep-sortable-item-image-container"
         style={{
-          position: "absolute",
-          top: "5px",
-          right: "5px",
-          backgroundColor: "transparent",
-          border: "none",
-          fontSize: "16px",
-          cursor: "pointer",
-          color: "#ff0000",
+          backgroundColor: asset.backgroundColor,
+          overflow:
+            imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
         }}
-        title="Delete Asset"
       >
-        &times;
-      </button>
-
-      {/* Draggable Area */}
-      <div style={{ cursor: "grab", width: "100%" }}>
-        {/* Image with Background */}
-        <div
-          style={{
-            backgroundColor: asset.backgroundColor,
-            borderRadius: "50%",
-            overflow:
-              imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "75px",
-            height: "75px",
-            margin: "0 auto",
-          }}
-        >
-          <img
-            src={asset.image}
-            alt={asset.label}
-            style={getImageStyle(imageBehaviors[asset.id], 75)}
-          />
-        </div>
-
-        {/* Asset Label */}
-        <div style={{ fontWeight: "bold", textAlign: "center" }}>
-          {asset.label}
-        </div>
+        <img
+          src={asset.image}
+          alt={asset.label}
+          style={getImageStyle(imageBehaviors[asset.id], 75)}
+        />
       </div>
-
-      {/* Dropdown Selection */}
+      <div className="hubspokep-sortable-item-label">{asset.label}</div>
       <select
         value={imageBehaviors[asset.id]}
         onChange={(e) => handleBehaviorChange(asset.id, e.target.value)}
-        style={{
-          padding: "5px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          width: "100%",
-        }}
       >
         {asset.options.map((option) => (
           <option key={option} value={option}>
@@ -979,5 +1057,3 @@ export function SortableItem({
     </div>
   );
 }
-
-

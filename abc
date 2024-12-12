@@ -1,362 +1,166 @@
-/* Prefix all classes with hubspokep- */
-
-.hubspokep-container {
-  padding: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.hubspokep-top-section {
-  display: flex;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-}
-
-.hubspokep-meta-details {
-  width: 25%;
-  padding-right: 15px;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #333;
-}
-
-.hubspokep-meta-details-content {
-  margin-bottom: 20px;
-  padding: 15px;
-  width: 100%;
-}
-
-.hubspokep-meta-details-content h3 {
-  margin-bottom: 10px;
-}
-
-.hubspokep-add-item {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.hubspokep-add-item input {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.hubspokep-add-item button {
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-
-.hubspokep-assets-section {
-  width: 75%;
-  padding-left: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.hubspokep-assets-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.hubspokep-assets-header h2 {
-  margin: 0;
-}
-
-.hubspokep-assets-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
-  overflow-y: auto;
-  max-height: 400px;
-}
-
-.hubspokep-action-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-}
-
-.hubspokep-approve-button {
-  background-color: #89cff0;
-}
-
-.hubspokep-reject-button {
-  background-color: #dc3545;
-}
-
-.hubspokep-delete-button,
-.hubspokep-undo-button {
-  background-color: #666;
-}
-
-.hubspokep-tabs {
-  display: flex;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.hubspokep-tabs button {
-  flex: 1;
-  padding: 20px;
-  font-size: 18px;
-  background-color: #d3d3d3;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  text-transform: uppercase;
-  position: relative;
-}
-
-.hubspokep-tabs button.hubspokep-active {
-  border-bottom: 2px solid darkblue;
-  color: darkblue;
-}
-
-/* Desktop active: add right border */
-.hubspokep-tabs button.hubspokep-active.hubspokep-desktop {
-  border-right: 2px solid darkblue;
-}
-
-/* Mobile active: add left border */
-.hubspokep-tabs button.hubspokep-active.hubspokep-mobile {
-  border-left: 2px solid darkblue;
-}
-
-.hubspokep-assembly-selection {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.hubspokep-assembly-selection label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.hubspokep-assembly-selection select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.hubspokep-banner-container {
-  margin-bottom: 40px;
-  padding: 10px;
-  position: relative;
-}
-
-.hubspokep-assembly-label {
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-  background-color: #e0e0e0;
-  padding: 10px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  letter-spacing: 2px;
-}
-
-.hubspokep-banner-label {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
-  padding: 5px 10px;
-  text-align: center;
-  margin-bottom: 10px;
-  position: relative;
-}
-
-.hubspokep-banner {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--banner-color, #f5f5f5);
-  padding: 10px;
-  position: relative;
-  border: 1px solid #ccc;
-}
-
-.hubspokep-page-name {
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #333;
-}
-
-.hubspokep-banner-grid {
-  display: grid;
-  gap: 10px;
-  justify-items: center;
-  margin-top: 20px;
-}
-
-.hubspokep-save-button-container {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.hubspokep-save-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.hubspokep-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.hubspokep-modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  width: 400px;
-  max-width: 90%;
-}
-
-.hubspokep-modal-content button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.hubspokep-modal-textarea {
-  width: 100%;
-  height: 60px;
-  margin-bottom: 10px;
-}
-
-.hubspokep-sortable-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background-color: #fafafa;
-  position: relative;
-  cursor: pointer;
-  border: 1px solid #e0e0e0;
-}
-
-.hubspokep-sortable-item.selected {
-  border: 2px solid #007bff;
-}
-
-.hubspokep-sortable-item-image-container {
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 75px;
-  height: 75px;
-}
-
-.hubspokep-sortable-item-label {
-  font-weight: bold;
-  text-align: center;
-  font-size: 14px;
-}
-
-.hubspokep-sortable-item select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 100%;
-}
-
-
-
-
-
 import React, { useState, useEffect } from "react";
-import { SortableItem } from "./SortableItem";
-import "./ResponsiveAssetManager.css";
+import { SortableItem } from "./SortableItem"; // Ensure correct path
+// import Approve, Reject, Delete from wherever they come from
 
-const initialAssets = [
-  ...Array(4)
-    .fill()
-    .map((_, idx) => ({
-      id: idx + 1,
-      originalLabel: `Asset ${idx + 1}`,
-      label: `Asset ${idx + 1}`,
-      image: "https://img.icons8.com/color/200/000000/trousers.png",
-      groupName: "Group A",
-      backgroundColor: "#C1FFC1",
-      mockup: {
-        desktop: "https://img.icons8.com/color/200/000000/trousers.png",
-        mobile: "https://img.icons8.com/color/200/000000/trousers.png",
-      },
-      options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
-      defaultOption: "tight",
-      status: null,
-    })),
-];
+const defaultOptions = ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"];
 
-const metadata = {
-  pageName: "Spring Collection",
-  creator: "John Doe",
-  creationDate: "2024-11-26",
-  status: "Pending",
-  deviceType: "Desktop",
-  bannerColor: "#f5f5f5",
-};
+function mapModelLabelToDefaultOption(modelLabel) {
+  // A simple heuristic: if "inside" is in the label, choose "inside", else "tight"
+  // You can enhance this logic as needed
+  if (modelLabel && modelLabel.includes("inside")) {
+    return "inside";
+  }
+  return "tight";
+}
 
-const desktopYLabels = ["4", "6"];
-const mobileYLabels = ["2", "3"];
+const HubspokePreview = ({ data }) => {
+  // Extracting the needed info from the provided data object
+  // Assuming data structure matches the provided JSON exactly
+  const moduleResponse = data.modules[0].moduleResponse;
+  const { pageName, status, gridName, usecase } = moduleResponse;
+  const groups = moduleResponse.groups || [];
 
-const ResponsiveAssetManager = () => {
+  // We'll process groups and their assets into our desired `assetsState` format
+  // Example: Combine desktop and mobile variants of the same assetId into one asset
+  const processedAssets = [];
+  const assetMap = {};
+
+  groups.forEach((group) => {
+    (group.assets || []).forEach((asset) => {
+      const key = asset.assetId;
+      if (!assetMap[key]) {
+        // Initialize a combined record
+        assetMap[key] = {
+          id: asset.assetId, // Use assetId as the identifier
+          originalLabel: asset.assetName || `Asset ${asset.assetId}`,
+          label: asset.assetName || `Asset ${asset.assetId}`,
+          groupName: group.categoryName || "Group A",
+          backgroundColor: "#C1FFC1",
+          mockup: {
+            desktop: "",
+            mobile: ""
+          },
+          options: defaultOptions,
+          defaultOption: mapModelLabelToDefaultOption(asset.modelLabel),
+          status: asset.status || null
+        };
+      }
+      // Assign mockups based on deviceType
+      if (asset.deviceType === "desktop") {
+        assetMap[key].mockup.desktop = asset.image;
+      } else if (asset.deviceType === "mobile") {
+        assetMap[key].mockup.mobile = asset.image;
+      }
+    });
+  });
+
+  for (const k in assetMap) {
+    processedAssets.push(assetMap[k]);
+  }
+
+  // Metadata object derived from the input
+  const metadata = {
+    pageName: pageName,
+    bannerColor: "#FFFFFF",
+    creator: moduleResponse.clientInfo && moduleResponse.clientInfo.requestBy ? moduleResponse.clientInfo.requestBy : "Unknown",
+    creationDate: new Date(moduleResponse.clientInfo ? moduleResponse.clientInfo.createdts : Date.now()).toLocaleString(),
+    status: status,
+    deviceType: "Desktop", // default, can toggle with tabs
+    gridName: gridName,
+    usecase: usecase
+  };
+
+  // Constants
+  const desktopYLabels = ["4", "6"];
+  const mobileYLabels = ["2", "3"];
+  const smartCreativeUsecase = "hubspoke";
+
+  // States
+  const [heading, setHeading] = useState(undefined);
+  const [subheading, setSubHeading] = useState(undefined);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [requestProcessing, setRequestProcessing] = useState(false);
+  const [reason, setReason] = useState(undefined);
+  const [selectedObj, setSelectedObj] = useState(undefined);
+  const [recommendation, setRecommendation] = useState(undefined);
+  const [comments, setComments] = useState(undefined);
+  const [reasonSelected, setReasonSelected] = useState(undefined);
+
+  const closeApproveModal = () => {
+    setShowApproveModal(false);
+    resetModelDatas();
+    setSelectedObj(undefined);
+  };
+
+  const resetModelDatas = () => {
+    setReason(undefined);
+    setHeading(undefined);
+    setSubHeading(undefined);
+    setRecommendation(undefined);
+    setComments(undefined);
+    setReasonSelected(undefined);
+  };
+
+  const clickApproveYes = (id, remarks, from) => {
+    setShowApproveModal(false);
+    handleModalSubmit();
+  };
+
+  const onUpdateComments = (event) => {
+    setComments(event.target.value);
+    setReason(event.target.value);
+  };
+
+  const onUpdateHeading = (event) => {
+    setHeading(event.target.value);
+  };
+
+  const onUpdateSubHeading = (event) => {
+    setSubHeading(event.target.value);
+  };
+
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const closeRejectModal = () => {
+    setShowRejectModal(false);
+  };
+
+  const clickRejectYes = () => {
+    setShowRejectModal(false);
+    handleModalSubmit();
+  };
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
+  const clickDeleteYes = () => {
+    setShowDeleteModal(false);
+    handleModalSubmit();
+  };
+
   const [activeTab, setActiveTab] = useState("desktop");
-  const [assetsState, setAssetsState] = useState([...initialAssets]);
+  const [assetsState, setAssetsState] = useState([...processedAssets]);
   const [imageBehaviors, setImageBehaviors] = useState(
-    initialAssets.reduce((acc, asset) => {
+    processedAssets.reduce((acc, asset) => {
       acc[asset.id] = asset.defaultOption;
       return acc;
     }, {})
   );
-  const [newItemId, setNewItemId] = useState("");
 
+  const [newItemId, setNewItemId] = useState("");
   const [selectedAssetId, setSelectedAssetId] = useState(null);
   const [selectedAssembly, setSelectedAssembly] = useState("4");
   const [innerCollapsed, setInnerCollapsed] = useState(true);
-
   const [modalInput, setModalInput] = useState({
     reason: "",
     details: "",
     recommendations: "",
   });
   const [showModal, setShowModal] = useState({ type: "", assetId: null });
-
   const [draggedItemId, setDraggedItemId] = useState(null);
 
-  const xLabels = activeTab === "desktop" ? ["1280", "lnh"] : ["375"];
+  const Labels = activeTab === "desktop" ? ["1280", "Inh"] : ["375"];
 
   const chunkArray = (array, size) => {
     const result = [];
@@ -408,45 +212,28 @@ const ResponsiveAssetManager = () => {
   const getImageStyle = (behavior, size) => {
     switch (behavior) {
       case "tight":
-        return {
-          width: `${size}px`,
-          height: `${size}px`,
-          objectFit: "contain",
-        };
+        return { width: `${size}px`, height: `${size}px`, objectFit: "contain" };
       case "tight(crop)":
         return { width: `${size}px`, height: `${size}px`, objectFit: "cover" };
       case "overflow":
-        return {
-          width: `${size * 1.3}px`,
-          height: `${size * 1.3}px`,
-          objectFit: "contain",
-        };
+        return { width: `${size * 1.3}px`, height: `${size * 1.3}px`, objectFit: "contain" };
       case "overflow(crop)":
-        return {
-          width: `${size * 1.3}px`,
-          height: `${size * 1.3}px`,
-          objectFit: "cover",
-        };
+        return { width: `${size * 1.3}px`, height: `${size * 1.3}px`, objectFit: "cover" };
       case "inside":
         return { width: `${size}px`, height: `${size}px`, objectFit: "cover" };
       default:
-        return {
-          width: `${size}px`,
-          height: `${size}px`,
-          objectFit: "contain",
-        };
+        return { width: `${size}px`, height: `${size}px`, objectFit: "contain" };
     }
   };
 
   const getImageSize = (assemblyLabel, screenSize) => {
     const maxItemsPerRow = parseInt(assemblyLabel, 10);
     const isDesktop = activeTab === "desktop";
-
     if (isDesktop) {
       if (screenSize === "1280") {
         if (maxItemsPerRow === 4) return 290;
         if (maxItemsPerRow === 6) return 192;
-      } else if (screenSize === "lnh") {
+      } else if (screenSize === "Inh") {
         if (maxItemsPerRow === 4) return 200;
         if (maxItemsPerRow === 6) return 132;
       }
@@ -454,21 +241,20 @@ const ResponsiveAssetManager = () => {
       if (screenSize === "375") {
         if (maxItemsPerRow === 2) return 135;
         if (maxItemsPerRow === 3) return 104;
+        return 100;
       }
     }
-
-    return 100;
+    return 100; // default
   };
 
   const handleAddNewItem = () => {
-    const newId = parseInt(newItemId, 10);
-    if (!newItemId || assetsState.some((asset) => asset.id === newId)) {
+    const newIdInt = parseInt(newItemId, 10);
+    if (!newItemId || assetsState.some((asset) => asset.id === newIdInt)) {
       alert("Invalid or duplicate ID. Please enter a unique ID.");
       return;
     }
-
     const newAsset = {
-      id: newId,
+      id: newIdInt,
       originalLabel: `Asset ${newItemId}`,
       label: `Asset ${newItemId}`,
       image: "https://img.icons8.com/color/200/000000/trousers.png",
@@ -478,7 +264,7 @@ const ResponsiveAssetManager = () => {
         desktop: "https://img.icons8.com/color/200/000000/trousers.png",
         mobile: "https://img.icons8.com/color/200/000000/trousers.png",
       },
-      options: ["tight", "tight(crop)", "overflow", "overflow(crop)", "inside"],
+      options: defaultOptions,
       defaultOption: "tight",
       status: null,
     };
@@ -486,7 +272,7 @@ const ResponsiveAssetManager = () => {
     setAssetsState((prev) => [...prev, newAsset]);
     setImageBehaviors((prev) => ({
       ...prev,
-      [newId]: newAsset.defaultOption,
+      [newIdInt]: newAsset.defaultOption,
     }));
     setNewItemId("");
     updateAssembly();
@@ -504,9 +290,7 @@ const ResponsiveAssetManager = () => {
 
   const handleDrop = (e, id) => {
     e.preventDefault();
-    const draggedIndex = assetsState.findIndex(
-      (item) => item.id === draggedItemId
-    );
+    const draggedIndex = assetsState.findIndex((item) => item.id === draggedItemId);
     const dropIndex = assetsState.findIndex((item) => item.id === id);
 
     if (draggedIndex !== dropIndex) {
@@ -529,9 +313,7 @@ const ResponsiveAssetManager = () => {
 
   const updateAssetStatus = (assetId, newStatus) => {
     if (newStatus === "Deleted") {
-      setAssetsState((prevAssets) =>
-        prevAssets.filter((asset) => asset.id !== assetId)
-      );
+      setAssetsState((prevAssets) => prevAssets.filter((asset) => asset.id !== assetId));
       setSelectedAssetId(null);
       updateAssembly();
       return;
@@ -542,11 +324,9 @@ const ResponsiveAssetManager = () => {
         if (asset.id === assetId) {
           let newLabel = asset.originalLabel;
           if (newStatus === "Approved") {
-            newLabel = removeStatusFromLabel(asset.label);
-            newLabel += " (a)";
+            newLabel = removeStatusFromLabel(asset.label) + " (a)";
           } else if (newStatus === "Rejected") {
-            newLabel = removeStatusFromLabel(asset.label);
-            newLabel += " (r)";
+            newLabel = removeStatusFromLabel(asset.label) + " (r)";
           } else if (newStatus === null) {
             newLabel = asset.originalLabel;
           }
@@ -562,16 +342,24 @@ const ResponsiveAssetManager = () => {
       alert("No asset selected.");
       return;
     }
-    const selectedAsset = assetsState.find(
-      (asset) => asset.id === selectedAssetId
-    );
+    const selectedAsset = assetsState.find((asset) => asset.id === selectedAssetId);
     if (selectedAsset) {
       if (actionType === "undo") {
         updateAssetStatus(selectedAssetId, null);
         setSelectedAssetId(null);
       } else {
-        setShowModal({ type: actionType, assetId: selectedAssetId });
-        setModalInput({ reason: "", details: "", recommendations: "" });
+        if (actionType === "approve") {
+          setSelectedObj(selectedAsset);
+          setShowApproveModal(true);
+        } else if (actionType === "delete") {
+          setSelectedObj(selectedAsset);
+          setShowDeleteModal(true);
+        } else if (actionType === "reject") {
+          selectedAsset.heading = "Reject Item";
+          selectedAsset.subHeading = "Please enter reason";
+          setSelectedObj(selectedAsset);
+          setShowRejectModal(true);
+        }
       }
     }
   };
@@ -607,35 +395,25 @@ const ResponsiveAssetManager = () => {
         {assemblies.map((assemblyLabel) => {
           const maxItemsPerRow = parseInt(assemblyLabel, 10);
           let assetChunks = chunkArray(assetsState, maxItemsPerRow);
-
           if (isMobile && innerCollapsed && assetChunks.length > 2) {
             assetChunks = assetChunks.slice(0, 2);
           }
-
           return (
             <div className="hubspokep-banner-container" key={assemblyLabel}>
               <div style={{ display: "flex" }}>
-                <div className="hubspokep-assembly-label">
-                  {`${assemblyLabel}-row Assembly`}
-                </div>
+                <div className="hubspokep-assembly-label">{`${assemblyLabel}-ROW ASSEMBLY`}</div>
                 <div style={{ flex: 1 }}>
-                  <div
-                    style={{ display: "flex", gap: "20px", overflowX: "auto" }}
-                  >
-                    {xLabels.map((screenSize, index) => {
+                  <div style={{ display: "flex", gap: "20px", overflowX: "auto" }}>
+                    {Labels.map((screenSize, index) => {
                       const cellSize = getImageSize(assemblyLabel, screenSize);
-                      const labelText = `${screenSize} (${
-                        activeTab === "desktop" ? "D" : "M"
-                      })`;
-
+                      const labelText = `${screenSize} (${activeTab === "desktop" ? "D" : "M"})`;
                       return (
                         <div key={`${assemblyLabel}-${screenSize}`}>
                           <div
                             className="hubspokep-banner-label"
                             style={{
-                              backgroundColor:
-                                index === 0 ? "#007BFF" : "#e0e0e0",
-                              color: index === 0 ? "#fff" : "#333",
+                              backgroundColor: index === 0 ? "rgb(0, 57, 110)" : "rgb(172, 173, 176)",
+                              color: index === 0 ? "rgb(255, 255, 255)" : "rgb(81, 83, 87)",
                             }}
                           >
                             {labelText}
@@ -645,12 +423,14 @@ const ResponsiveAssetManager = () => {
                             style={{ backgroundColor: metadata.bannerColor }}
                           >
                             <div className="hubspokep-page-name">
-                              {metadata.pageName}
+                              <h3>{metadata.pageName}</h3>
                             </div>
                             <div
                               className="hubspokep-banner-grid"
                               style={{
+                                display: "grid",
                                 gridTemplateColumns: `repeat(${maxItemsPerRow}, 1fr)`,
+                                gap: "10px",
                               }}
                             >
                               {assetChunks.map((chunk, chunkIndex) => (
@@ -667,14 +447,10 @@ const ResponsiveAssetManager = () => {
                                     >
                                       <div
                                         style={{
-                                          backgroundColor:
-                                            asset.backgroundColor,
+                                          backgroundColor: asset.backgroundColor,
                                           borderRadius: "50%",
                                           overflow:
-                                            imageBehaviors[asset.id] ===
-                                            "overflow"
-                                              ? "visible"
-                                              : "hidden",
+                                            imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
                                           display: "flex",
                                           justifyContent: "center",
                                           alignItems: "center",
@@ -686,10 +462,7 @@ const ResponsiveAssetManager = () => {
                                         <img
                                           src={asset.mockup[activeTab]}
                                           alt={asset.label}
-                                          style={getImageStyle(
-                                            imageBehaviors[asset.id],
-                                            cellSize
-                                          )}
+                                          style={getImageStyle(imageBehaviors[asset.id], cellSize)}
                                         />
                                       </div>
                                       <div
@@ -706,28 +479,23 @@ const ResponsiveAssetManager = () => {
                                 </React.Fragment>
                               ))}
                             </div>
-
-                            {isMobile &&
-                              chunkArray(assetsState, maxItemsPerRow).length >
-                                2 && (
-                                <button
-                                  onClick={() =>
-                                    setInnerCollapsed((prev) => !prev)
-                                  }
-                                  style={{
-                                    marginTop: "10px",
-                                    alignSelf: "center",
-                                    padding: "8px 16px",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    backgroundColor: "#007BFF",
-                                    color: "#fff",
-                                    border: "none",
-                                  }}
-                                >
-                                  {innerCollapsed ? "Expand" : "Collapse"}
-                                </button>
-                              )}
+                            {isMobile && chunkArray(assetsState, maxItemsPerRow).length > 2 && (
+                              <button
+                                onClick={() => setInnerCollapsed((prev) => !prev)}
+                                style={{
+                                  width: "100%",
+                                  borderRadius: "500px",
+                                  cursor: "pointer",
+                                  backgroundColor: "transparent",
+                                  border: "solid black 1px",
+                                  marginTop: "4px",
+                                  fontSize: "1rem",
+                                  height: "32px",
+                                }}
+                              >
+                                {innerCollapsed ? "See More" : "See Less"}
+                              </button>
+                            )}
                           </div>
                         </div>
                       );
@@ -746,17 +514,11 @@ const ResponsiveAssetManager = () => {
     setSelectedAssetId(null);
   };
 
-  // Determine which buttons to show based on selected asset's status
   let actionButtons = null;
   if (selectedAssetId) {
-    const selectedAsset = assetsState.find(
-      (asset) => asset.id === selectedAssetId
-    );
+    const selectedAsset = assetsState.find((asset) => asset.id === selectedAssetId);
     if (selectedAsset) {
-      if (
-        selectedAsset.status === "Approved" ||
-        selectedAsset.status === "Rejected"
-      ) {
+      if (selectedAsset.status === "Approved" || selectedAsset.status === "Rejected") {
         // Show Undo & Delete
         actionButtons = (
           <>
@@ -804,17 +566,13 @@ const ResponsiveAssetManager = () => {
 
   return (
     <div className="hubspokep-container" onClick={handleContainerClick}>
-      {/* Top Section: Meta Details & Assets */}
-      <div
-        className="hubspokep-top-section"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="hubspokep-top-section" onClick={(e) => e.stopPropagation()}>
         {/* Meta Details */}
         <div className="hubspokep-meta-details">
           <div className="hubspokep-meta-details-content">
             <h3>Meta Details</h3>
             <p>
-              <strong>Page Name:</strong> {metadata.pageName}
+              <strong>Page Name: </strong> {metadata.pageName}
             </p>
             <p>
               <strong>Creator:</strong> {metadata.creator}
@@ -828,8 +586,10 @@ const ResponsiveAssetManager = () => {
             <p>
               <strong>Device Type:</strong> {metadata.deviceType}
             </p>
+            <p>
+              <strong>Grid Name:</strong> {metadata.gridName}
+            </p>
           </div>
-
           <div className="hubspokep-add-item">
             <h4>Add New Item by ID</h4>
             <input
@@ -842,16 +602,12 @@ const ResponsiveAssetManager = () => {
           </div>
         </div>
 
-        {/* Assets Section */}
         <div className="hubspokep-assets-section">
           <div className="hubspokep-assets-header">
-            <h2>Assets</h2>
+            <h3>Assets</h3>
             <div style={{ display: "inline-block" }}>{actionButtons}</div>
           </div>
-          <div
-            className="hubspokep-assets-grid"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="hubspokep-assets-grid" onClick={(e) => e.stopPropagation()}>
             {assetsState.map((asset) => (
               <SortableItem
                 key={asset.id}
@@ -860,143 +616,113 @@ const ResponsiveAssetManager = () => {
                 imageBehaviors={imageBehaviors}
                 handleBehaviorChange={handleBehaviorChange}
                 getImageStyle={getImageStyle}
-                onDragStart={(e) => handleDragStart(e, asset.id)}
+                onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, asset.id)}
+                onDrop={handleDrop}
                 onSelectAsset={handleSelectAsset}
                 isSelected={selectedAssetId === asset.id}
               />
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Tabs */}
-      <div className="hubspokep-tabs" onClick={(e) => e.stopPropagation()}>
-        <button
-          onClick={() => {
-            setActiveTab("desktop");
-            metadata.deviceType = "Desktop";
-          }}
-          className={`hubspokep-${
-            activeTab === "desktop" ? "active hubspokep-desktop" : ""
-          }`}
-          aria-label="Switch to Desktop Tab"
-        >
-          Desktop
-        </button>
-        <button
-          onClick={() => {
-            setActiveTab("mobile");
-            metadata.deviceType = "Mobile";
-          }}
-          className={`hubspokep-${
-            activeTab === "mobile" ? "active hubspokep-mobile" : ""
-          }`}
-          aria-label="Switch to Mobile Tab"
-        >
-          Mobile
-        </button>
-      </div>
-
-      {/* Assembly Selection */}
-      <div
-        className="hubspokep-assembly-selection"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <label>Choose Assembly:</label>
-        <select value={selectedAssembly} onChange={handleAssemblyChange}>
-          {activeTab === "desktop"
-            ? desktopYLabels.map((label) => (
-                <option key={label} value={label}>
-                  {label}-row Assembly
-                </option>
-              ))
-            : mobileYLabels.map((label) => (
-                <option key={label} value={label}>
-                  {label}-row Assembly
-                </option>
-              ))}
-        </select>
-      </div>
-
-      {/* Render Selected Assembly */}
-      {renderMockupSections([selectedAssembly])}
-
-      {/* Save Button */}
-      <div className="hubspokep-save-button-container">
-        <button
-          className="hubspokep-save-button"
-          onClick={() => alert("Saved")}
-        >
-          Save
-        </button>
-      </div>
-
-      {/* Modals */}
-      {showModal.type && (
-        <div
-          className="hubspokep-modal-overlay"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <div className="hubspokep-modal-content">
-            <h3>
-              {showModal.type === "approve"
-                ? `Approve Asset ${showModal.assetId}`
-                : showModal.type === "reject"
-                ? `Reject Asset ${showModal.assetId}`
-                : `Delete Asset ${showModal.assetId}`}
-            </h3>
-            {(showModal.type === "approve" || showModal.type === "reject") && (
-              <textarea
-                className="hubspokep-modal-textarea"
-                placeholder="Reason"
-                value={modalInput.reason}
-                onChange={(e) =>
-                  setModalInput({ ...modalInput, reason: e.target.value })
-                }
-              />
-            )}
-            {showModal.type === "reject" && (
-              <>
-                <textarea
-                  className="hubspokep-modal-textarea"
-                  placeholder="Details"
-                  value={modalInput.details}
-                  onChange={(e) =>
-                    setModalInput({ ...modalInput, details: e.target.value })
-                  }
-                />
-                <textarea
-                  className="hubspokep-modal-textarea"
-                  placeholder="Recommendations"
-                  value={modalInput.recommendations}
-                  onChange={(e) =>
-                    setModalInput({
-                      ...modalInput,
-                      recommendations: e.target.value,
-                    })
-                  }
-                />
-              </>
-            )}
-            <div style={{ marginTop: "20px" }}>
-              <button onClick={handleModalSubmit}>
-                {showModal.type.charAt(0).toUpperCase() +
-                  showModal.type.slice(1)}
-              </button>
-              <button onClick={handleModalClose}>Cancel</button>
-            </div>
-          </div>
+        {/* Tabs */}
+        <div className="hubspokep-tabs" onClick={(e) => e.stopPropagation()}>
+          <button
+            onClick={() => {
+              setActiveTab("desktop");
+              metadata.deviceType = "Desktop";
+            }}
+            className={activeTab === "desktop" ? "active hubspokep-desktop" : ""}
+            aria-label="Switch to Desktop Tab"
+          >
+            Desktop
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab("mobile");
+              metadata.deviceType = "Mobile";
+            }}
+            className={activeTab === "mobile" ? "active hubspokep-mobile" : ""}
+            aria-label="Switch to Mobile Tab"
+          >
+            Mobile
+          </button>
         </div>
-      )}
+
+        {/* Assembly Selection */}
+        <div className="hubspokep-assembly-selection" onClick={(e) => e.stopPropagation()}>
+          <label>Choose Assembly:</label>
+          <select value={selectedAssembly} onChange={handleAssemblyChange}>
+            {activeTab === "desktop"
+              ? desktopYLabels.map((label) => (
+                  <option key={label} value={label}>
+                    {label}-row Assembly
+                  </option>
+                ))
+              : mobileYLabels.map((label) => (
+                  <option key={label} value={label}>
+                    {label}-row Assembly
+                  </option>
+                ))}
+          </select>
+        </div>
+
+        {/* Render Selected Assembly */}
+        {renderMockupSections([selectedAssembly])}
+
+        {/* Save Button */}
+        <div className="hubspokep-save-button-container">
+          <button className="hubspokep-save-button" onClick={() => alert("Saved")}>
+            Save
+          </button>
+        </div>
+
+        <div className="smartcreative-models">
+          {showApproveModal && (
+            <Approve
+              showApproveModal={showApproveModal}
+              spinner={requestProcessing}
+              closeApproveModal={closeApproveModal}
+              clickApproveYes={clickApproveYes}
+              onUpdateComments={onUpdateComments}
+              reason={reason}
+              selectedobj={selectedObj}
+              from={smartCreativeUsecase}
+              heading={heading}
+              subheading={subheading}
+              onUpdateHeading={onUpdateHeading}
+              onUpdateSubHeading={onUpdateSubHeading}
+            />
+          )}
+          {showRejectModal && (
+            <Reject
+              showRejectModal={showRejectModal}
+              spinner={requestProcessing}
+              closeRejectModal={closeRejectModal}
+              clickRejectYes={clickRejectYes}
+              selectedObj={selectedObj}
+              usecase={smartCreativeUsecase}
+              action={showRejectModal ? "reject" : "modify"}
+              position={undefined}
+              isRejected={true}
+            />
+          )}
+          {showDeleteModal && (
+            <Delete
+              showDeleteModal={showDeleteModal}
+              closeDeleteModal={closeDeleteModal}
+              clickDeleteYes={clickDeleteYes}
+              spinner={requestProcessing}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ResponsiveAssetManager;
+export default HubspokePreview;
 
 
 
@@ -1037,8 +763,9 @@ export function SortableItem({
             imageBehaviors[asset.id] === "overflow" ? "visible" : "hidden",
         }}
       >
+        {/* We use a fixed size of 75 here as in the original code */}
         <img
-          src={asset.image}
+          src={asset.mockup && asset.mockup.desktop ? asset.mockup.desktop : asset.image}
           alt={asset.label}
           style={getImageStyle(imageBehaviors[asset.id], 75)}
         />
